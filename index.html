@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Univestree — Find Your University, Anywhere in the World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #2563EB;
+    --primary-light: #3B82F6;
+    --primary-dark: #1D4ED8;
+    --accent: #F59E0B;
+    --accent2: #10B981;
+    --accent3: #8B5CF6;
+    --bg: #F8F7F4;
+    --card: #FFFFFF;
+    --text: #111827;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --warm: #FFF7ED;
+    --radius: 18px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.07);
+    --shadow-hover: 0 12px 40px rgba(37,99,235,0.13);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(248,247,244,0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .logo {
+    font-size: 1.45rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+  .logo span { font-family: 'DM Serif Display', serif; font-style: italic; }
+  nav ul {
+    display: flex; gap: 2rem; list-style: none;
+    align-items: center;
+  }
+  nav ul a {
+    text-decoration: none; color: var(--muted);
+    font-size: 0.88rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--primary); }
+  .nav-ctas { display: flex; gap: 0.75rem; align-items: center; }
+  .btn-ghost {
+    padding: 8px 18px; border-radius: 50px;
+    border: 1.5px solid var(--border);
+    background: transparent; color: var(--text);
+    font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-primary {
+    padding: 8px 20px; border-radius: 50px;
+    border: none; background: var(--primary); color: #fff;
+    font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.3); }
+
+  /* ── HERO ── */
+  .hero {
+    margin-top: 68px;
+    padding: 80px 5% 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    align-items: center; max-width: 1280px; margin-left: auto; margin-right: auto;
+    margin-top: 68px;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #EFF6FF; color: var(--primary);
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px;
+    padding: 6px 14px; border-radius: 50px;
+    border: 1px solid #BFDBFE;
+    margin-bottom: 1.2rem;
+  }
+  .hero-tag .dot { width: 7px; height: 7px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .hero h1 {
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 800; line-height: 1.12;
+    letter-spacing: -1.5px; color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 em {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    background: linear-gradient(135deg, #2563EB, #8B5CF6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 1.05rem; color: var(--muted);
+    line-height: 1.7; max-width: 480px; margin-bottom: 2rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .btn-big {
+    padding: 14px 30px; border-radius: 50px;
+    font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .btn-big.primary {
+    background: var(--primary); color: #fff; border: none;
+    box-shadow: 0 8px 24px rgba(37,99,235,0.3);
+  }
+  .btn-big.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37,99,235,0.4); }
+  .btn-big.outline {
+    background: transparent; color: var(--text);
+    border: 2px solid var(--border);
+  }
+  .btn-big.outline:hover { border-color: var(--primary); color: var(--primary); }
+  .hero-stats {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; }
+  .stat-num {
+    font-size: 1.6rem; font-weight: 800; color: var(--text);
+    letter-spacing: -1px; line-height: 1;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+
+  /* Hero Right — Search Card */
+  .hero-card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 0 24px 64px rgba(37,99,235,0.1), 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid var(--border);
+    position: relative; overflow: visible;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(139,92,246,0.15), transparent 70%);
+    pointer-events: none;
+  }
+  .card-title {
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 1.2rem;
+    color: var(--text);
+  }
+  .search-row {
+    display: flex; gap: 0; margin-bottom: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 14px; overflow: hidden;
+    background: var(--bg); transition: border-color 0.2s;
+  }
+  .search-row:focus-within { border-color: var(--primary); }
+  .search-row input, .search-row select {
+    flex: 1; border: none; background: transparent;
+    padding: 13px 16px; font-family: 'Sora', sans-serif;
+    font-size: 0.88rem; color: var(--text); outline: none;
+  }
+  .search-row select { border-left: 1px solid var(--border); max-width: 130px; }
+  .search-btn {
+    background: var(--primary); color: #fff; border: none;
+    padding: 12px 20px; font-size: 1.1rem; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .search-btn:hover { background: var(--primary-dark); }
+
+  .filter-chips {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem;
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 12px; border-radius: 50px; font-size: 0.78rem;
+    font-weight: 600; cursor: pointer; transition: all 0.2s;
+    border: 1.5px solid transparent;
+  }
+  .chip.active { background: #EFF6FF; color: var(--primary); border-color: #BFDBFE; }
+  .chip:not(.active) { background: #F3F4F6; color: var(--muted); border-color: transparent; }
+  .chip:hover { border-color: var(--primary); color: var(--primary); }
+
+  .mini-unis {
+    display: flex; flex-direction: column; gap: 0.65rem;
+  }
+  .mini-uni-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px; background: var(--bg);
+    border-radius: 12px; border: 1px solid var(--border);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .mini-uni-card:hover { border-color: var(--primary); background: #EFF6FF; }
+  .uni-logo-sm {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 700; color: #fff;
+  }
+  .uni-info { flex: 1; }
+  .uni-name-sm { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+  .uni-country-sm { font-size: 0.72rem; color: var(--muted); }
+  .uni-match {
+    font-size: 0.72rem; font-weight: 700;
+    padding: 3px 9px; border-radius: 50px;
+  }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 20px 5%;
+  }
+  .trust-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+  }
+  .trust-label { font-size: 0.8rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .trust-logos {
+    display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
+  }
+  .t-logo {
+    font-size: 0.82rem; font-weight: 700; color: #9CA3AF;
+    letter-spacing: 0.5px; transition: color 0.2s;
+  }
+  .t-logo:hover { color: var(--muted); }
+
+  /* ── SECTION LAYOUT ── */
+  section { padding: 80px 5%; }
+  .section-inner { max-width: 1280px; margin: 0 auto; }
+  .section-tag {
+    display: inline-block; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--primary); margin-bottom: 0.75rem;
+  }
+  .section-h {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800; letter-spacing: -1px;
+    line-height: 1.2; margin-bottom: 0.75rem;
+  }
+  .section-h em {
+    font-family: 'DM Serif Display', serif; font-style: italic;
+    color: var(--primary);
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--muted); max-width: 520px; line-height: 1.65;
+    margin-bottom: 3rem;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how { background: var(--card); }
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+  }
+  .step-card {
+    background: var(--bg); border-radius: var(--radius);
+    padding: 28px 24px; border: 1px solid var(--border);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .step-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent3));
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  .step-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+  .step-card:hover::after { transform: scaleX(1); }
+  .step-num {
+    font-size: 0.72rem; font-weight: 800; color: var(--primary);
+    letter-spacing: 2px; margin-bottom: 1rem;
+  }
+  .step-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1rem;
+  }
+  .step-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .step-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── UNIVERSITY CARDS ── */
+  .unis-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .uni-card {
+    background: var(--card); border-radius: var(--radius);
+    border: 1px solid var(--border); overflow: hidden;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .uni-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); border-color: #BFDBFE; }
+  .uni-card-img {
+    height: 140px; display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; position: relative; overflow: hidden;
+  }
+  .uni-card-body { padding: 20px; }
+  .uni-card-name {
+    font-size: 1rem; font-weight: 700; margin-bottom: 4px;
+    color: var(--text);
+  }
+  .uni-card-loc {
+    font-size: 0.8rem; color: var(--muted); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .uni-card-tags {
+    display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 14px;
+  }
+  .tag {
+    font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 50px;
+  }
+  .tag-blue { background: #EFF6FF; color: var(--primary); }
+  .tag-green { background: #ECFDF5; color: var(--accent2); }
+  .tag-amber { background: #FFFBEB; color: #D97706; }
+  .tag-purple { background: #F5F3FF; color: var(--accent3); }
+  .uni-card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--border); padding-top: 14px;
+  }
+  .uni-card-rank { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+  .uni-card-courses { font-size: 0.78rem; color: var(--muted); }
+  .apply-btn {
+    padding: 7px 18px; border-radius: 50px; border: none;
+    background: var(--primary); color: #fff;
+    font-family: 'Sora', sans-serif; font-size: 0.78rem; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .apply-btn:hover { background: var(--primary-dark); }
+  .view-all-row { text-align: center; }
+
+  /* ── COUNSELLORS ── */
+  .counsellors-bg { background: linear-gradient(135deg, #EFF6FF 0%, #F5F3FF 100%); }
+  .counsellors-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+  }
+  .counsellor-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 24px 20px; text-align: center;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: all 0.3s;
+  }
+  .counsellor-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: #BFDBFE; }
+  .c-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: 700; color: #fff;
+    border: 3px solid var(--border);
+  }
+  .c-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; }
+  .c-spec { font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; }
+  .c-stars { font-size: 0.82rem; color: #F59E0B; margin-bottom: 4px; }
+  .c-reviews { font-size: 0.72rem; color: var(--muted); margin-bottom: 14px; }
+  .c-tags { display: flex; gap: 0.3rem; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .c-price { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .book-btn {
+    width: 100%; padding: 9px; border-radius: 50px;
+    border: 1.5px solid var(--primary); background: transparent;
+    color: var(--primary); font-family: 'Sora', sans-serif;
+    font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  }
+  .book-btn:hover { background: var(--primary); color: #fff; }
+
+  /* ── COURSES ── */
+  .courses-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+  }
+  .course-card {
+    background: var(--card); border-radius: 16px;
+    padding: 22px 20px; border: 1px solid var(--border);
+    cursor: pointer; transition: all 0.3s;
+  }
+  .course-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+  .course-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 1rem;
+  }
+  .course-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+  .course-card p { font-size: 0.78rem; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+  .course-meta { display: flex; align-items: center; justify-content: space-between; }
+  .course-count { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+  .course-arrow {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--bg); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: var(--muted); transition: all 0.2s;
+  }
+  .course-card:hover .course-arrow { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-bg { background: var(--card); }
+  .test-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .test-card {
+    background: var(--bg); border-radius: var(--radius);
+    padding: 28px; border: 1px solid var(--border); transition: all 0.3s;
+  }
+  .test-card:hover { box-shadow: var(--shadow-hover); border-color: #BFDBFE; }
+  .test-quote { font-size: 2rem; color: var(--primary); line-height: 1; margin-bottom: 0.75rem; }
+  .test-text { font-size: 0.88rem; color: var(--text); line-height: 1.7; margin-bottom: 1.2rem; }
+  .test-author { display: flex; align-items: center; gap: 10px; }
+  .test-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.85rem; color: #fff;
+  }
+  .test-name { font-size: 0.85rem; font-weight: 700; }
+  .test-info { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── COUNTRIES ── */
+  .countries-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;
+  }
+  .country-card {
+    background: var(--card); border-radius: 16px;
+    padding: 20px 16px; text-align: center;
+    border: 1px solid var(--border); cursor: pointer; transition: all 0.3s;
+  }
+  .country-card:hover { border-color: var(--primary); background: #EFF6FF; transform: translateY(-3px); }
+  .country-flag { font-size: 2.2rem; margin-bottom: 8px; }
+  .country-name { font-size: 0.82rem; font-weight: 700; margin-bottom: 3px; }
+  .country-unis { font-size: 0.72rem; color: var(--muted); }
+
+  /* ── FEATURES (Why Univestree) ── */
+  .features-bg { background: linear-gradient(160deg, #0F172A 0%, #1E1B4B 100%); color: #fff; }
+  .features-bg .section-tag { color: #818CF8; }
+  .features-bg .section-h { color: #fff; }
+  .features-bg .section-h em { color: #A5B4FC; -webkit-text-fill-color: #A5B4FC; }
+  .features-bg .section-sub { color: #94A3B8; }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .feat-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: var(--radius); padding: 28px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.3s;
+  }
+  .feat-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(165,180,252,0.3); }
+  .feat-icon {
+    width: 50px; height: 50px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1rem;
+  }
+  .feat-card h3 { font-size: 1rem; font-weight: 700; color: #F1F5F9; margin-bottom: 0.5rem; }
+  .feat-card p { font-size: 0.84rem; color: #94A3B8; line-height: 1.65; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--card); padding: 80px 5%;
+  }
+  .cta-box {
+    max-width: 860px; margin: 0 auto; text-align: center;
+    background: linear-gradient(135deg, #EFF6FF, #F5F3FF);
+    border-radius: 28px; padding: 60px 48px;
+    border: 1px solid #BFDBFE;
+  }
+  .cta-box h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800; letter-spacing: -1px; margin-bottom: 1rem;
+  }
+  .cta-box h2 em {
+    font-family: 'DM Serif Display', serif; font-style: italic; color: var(--primary);
+  }
+  .cta-box p { font-size: 1rem; color: var(--muted); margin-bottom: 2rem; }
+  .cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .email-input {
+    padding: 14px 20px; border-radius: 50px;
+    border: 2px solid var(--border); background: var(--card);
+    font-family: 'Sora', sans-serif; font-size: 0.9rem;
+    width: 280px; outline: none; color: var(--text);
+    transition: border-color 0.2s;
+  }
+  .email-input:focus { border-color: var(--primary); }
+  .email-input::placeholder { color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0F172A; color: #94A3B8; padding: 60px 5% 32px;
+  }
+  .footer-inner { max-width: 1280px; margin: 0 auto; }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 3rem;
+    margin-bottom: 48px;
+  }
+  .footer-logo {
+    font-size: 1.4rem; font-weight: 800; color: #fff;
+    margin-bottom: 0.75rem;
+  }
+  .footer-logo span { font-family: 'DM Serif Display', serif; font-style: italic; }
+  .footer-tagline { font-size: 0.84rem; line-height: 1.6; color: #64748B; margin-bottom: 1.5rem; }
+  .footer-socials { display: flex; gap: 0.75rem; }
+  .social-btn {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: #1E293B; border: 1px solid #334155;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+    color: #94A3B8;
+  }
+  .social-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .footer-col h4 { font-size: 0.82rem; font-weight: 700; color: #F1F5F9; margin-bottom: 1rem; letter-spacing: 0.5px; text-transform: uppercase; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col ul a {
+    text-decoration: none; color: #64748B; font-size: 0.83rem;
+    transition: color 0.2s;
+  }
+  .footer-col ul a:hover { color: #94A3B8; }
+  .footer-bottom {
+    border-top: 1px solid #1E293B; padding-top: 24px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-copy { font-size: 0.8rem; color: #475569; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.8rem; color: #475569; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: #94A3B8; }
+
+  /* ── SEARCH TABS ── */
+  .search-tabs {
+    display: flex; gap: 0.4rem; margin-bottom: 1rem;
+  }
+  .s-tab {
+    padding: 6px 14px; border-radius: 50px;
+    font-size: 0.78rem; font-weight: 600; cursor: pointer;
+    border: 1.5px solid transparent; transition: all 0.2s;
+  }
+  .s-tab.active { background: var(--primary); color: #fff; }
+  .s-tab:not(.active) { color: var(--muted); background: #F3F4F6; }
+  .s-tab:not(.active):hover { border-color: var(--primary); color: var(--primary); }
+
+  /* ── FLOATING BADGES ── */
+  .badge-float {
+    position: absolute; display: flex; align-items: center; gap: 8px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 50px; padding: 8px 16px;
+    box-shadow: var(--shadow); font-size: 0.8rem; font-weight: 600;
+    white-space: nowrap; pointer-events: none;
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+/* ── ABOUT US PREMIUM ── */
+
+.about-premium {
+  background: linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);
+}
+
+.about-grid {
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:2rem;
+  align-items:center;
+  margin-bottom:4rem;
+}
+
+.about-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:40px;
+  box-shadow:var(--shadow);
+}
+
+.about-founder-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#EFF6FF;
+  color:var(--primary);
+  padding:7px 16px;
+  border-radius:50px;
+  font-size:0.75rem;
+  font-weight:700;
+  margin-bottom:1.2rem;
+}
+
+.about-founder-title {
+  font-size:2rem;
+  font-weight:800;
+  line-height:1.25;
+  margin-bottom:1rem;
+  letter-spacing:-1px;
+}
+
+.about-founder-text {
+  color:var(--muted);
+  line-height:1.9;
+  margin-bottom:1rem;
+  font-size:0.95rem;
+}
+
+.about-highlight-grid {
+  display:grid;
+  gap:1rem;
+}
+
+.about-highlight {
+  border-radius:24px;
+  padding:30px;
+  color:white;
+  box-shadow:0 16px 40px rgba(0,0,0,0.12);
+}
+
+.team-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1.5rem;
+  margin-top:3rem;
+}
+
+.team-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:28px;
+  transition:all 0.3s;
+  box-shadow:var(--shadow);
+}
+
+.team-card:hover {
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-hover);
+}
+
+.team-avatar {
+  width:72px;
+  height:72px;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.6rem;
+  font-weight:800;
+  color:white;
+  margin-bottom:1rem;
+}
+
+.team-role {
+  color:var(--primary);
+  font-size:0.82rem;
+  font-weight:700;
+  margin-bottom:0.6rem;
+}
+
+.team-name {
+  font-size:1.15rem;
+  font-weight:800;
+  margin-bottom:1rem;
+}
+
+.team-desc {
+  color:var(--muted);
+  line-height:1.8;
+  font-size:0.88rem;
+}
+
+.mission-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1rem;
+  margin-top:3rem;
+}
+
+.mission-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:28px;
+  text-align:center;
+  transition:all 0.3s;
+}
+
+.mission-card:hover {
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-hover);
+}
+
+.mission-icon {
+  font-size:2rem;
+  margin-bottom:1rem;
+}
+
+.mission-title {
+  font-size:1rem;
+  font-weight:700;
+  margin-bottom:0.7rem;
+}
+
+.mission-text {
+  font-size:0.82rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+@media(max-width:1024px){
+
+  .about-grid{
+    grid-template-columns:1fr;
+  }
+
+  .team-grid{
+    grid-template-columns:1fr;
+  }
+
+  .mission-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:640px){
+
+  .mission-grid{
+    grid-template-columns:1fr;
+  }
+
+  .about-card{
+    padding:28px;
+  }
+
+  .about-founder-title{
+    font-size:1.5rem;
+  }
+
+}
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; gap: 2.5rem; }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .unis-grid { grid-template-columns: repeat(2, 1fr); }
+    .counsellors-grid { grid-template-columns: repeat(2, 1fr); }
+    .courses-grid { grid-template-columns: repeat(2, 1fr); }
+    .test-grid { grid-template-columns: 1fr; }
+    .countries-grid { grid-template-columns: repeat(3, 1fr); }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    nav ul { display: none; }
+    .hero { padding: 40px 5%; }
+    .steps-grid, .unis-grid, .counsellors-grid, .courses-grid { grid-template-columns: 1fr; }
+    .countries-grid { grid-template-columns: repeat(2, 1fr); }
+    .features-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .cta-box { padding: 36px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Unive<span>stree</span></div>
+  <ul>
+    <li><a href="#explore">Explore</a></li>
+    <li><a href="#counsellors">Counsellors</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#countries">Countries</a></li>
+    <li><a href="#about">Resources</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <button class="btn-ghost">Sign In</button>
+    <button class="btn-primary">Get Started Free</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="padding:0; max-width:none;">
+<div class="hero section-inner" style="padding-top:80px; padding-bottom:64px;">
+  <div>
+    <div class="hero-tag">
+      <span class="dot"></span>
+      Trusted by 120,000+ students worldwide
+    </div>
+    <h1>Your Dream <em>University</em>,<br>One Search Away</h1>
+    <p>Discover, compare, and apply to universities across 80+ countries. Get matched with expert counsellors who've been there — and get in.</p>
+    <div class="hero-btns">
+      <button class="btn-big primary">🎓 Explore Universities</button>
+      <button class="btn-big outline">Talk to a Counsellor</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">12,000+</span><span class="stat-label">Universities listed</span></div>
+      <div class="stat"><span class="stat-num">80+</span><span class="stat-label">Countries covered</span></div>
+      <div class="stat"><span class="stat-num">98%</span><span class="stat-label">Visa success rate</span></div>
+      <div class="stat"><span class="stat-num">4.9★</span><span class="stat-label">Student rating</span></div>
+    </div>
+  </div>
+
+  <div style="position:relative;">
+    <!-- Floating badges -->
+    <div class="badge-float" style="top:-20px; right:20px; animation: float1 3s ease-in-out infinite;">
+      🎉 <span>Accepted at Oxford!</span>
+    </div>
+    <div class="badge-float" style="bottom:20px; left:-16px; animation: float2 4s ease-in-out infinite;">
+      📩 <span>Application sent to MIT</span>
+    </div>
+    <style>
+      @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+      @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+    </style>
+
+    <div class="hero-card">
+      <div class="search-tabs">
+        <button class="s-tab active">Universities</button>
+        <button class="s-tab">Courses</button>
+        <button class="s-tab">Scholarships</button>
+        <button class="s-tab">Counsellors</button>
+      </div>
+      <div class="card-title">Where do you want to study?</div>
+      <div class="search-row">
+        <input type="text" placeholder="Search university, course, country...">
+        <select>
+          <option>All Countries</option>
+          <option>🇺🇸 USA</option>
+          <option>🇬🇧 UK</option>
+          <option>🇨🇦 Canada</option>
+          <option>🇦🇺 Australia</option>
+          <option>🇩🇪 Germany</option>
+        </select>
+        <button class="search-btn">🔍</button>
+      </div>
+      <div class="filter-chips">
+        <span class="chip active">🎓 UG Programs</span>
+        <span class="chip">📚 Masters</span>
+        <span class="chip">🔬 PhD</span>
+        <span class="chip">💰 Scholarships</span>
+        <span class="chip">🌐 Online</span>
+      </div>
+      <div style="font-size:0.78rem; color:var(--muted); font-weight:600; margin-bottom:0.6rem;">⚡ Popular right now</div>
+      <div class="mini-unis">
+        <div class="mini-uni-card">
+          <div class="uni-logo-sm" style="background:linear-gradient(135deg,#1D4ED8,#3B82F6)">M</div>
+          <div class="uni-info">
+            <div class="uni-name-sm">MIT</div>
+            <div class="uni-country-sm">🇺🇸 Cambridge, USA</div>
+          </div>
+          <div class="uni-match tag tag-green">98% match</div>
+        </div>
+        <div class="mini-uni-card">
+          <div class="uni-logo-sm" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">O</div>
+          <div class="uni-info">
+            <div class="uni-name-sm">University of Oxford</div>
+            <div class="uni-country-sm">🇬🇧 Oxford, UK</div>
+          </div>
+          <div class="uni-match tag tag-blue">95% match</div>
+        </div>
+        <div class="mini-uni-card">
+          <div class="uni-logo-sm" style="background:linear-gradient(135deg,#059669,#34D399)">T</div>
+          <div class="uni-info">
+            <div class="uni-name-sm">University of Toronto</div>
+            <div class="uni-country-sm">🇨🇦 Toronto, Canada</div>
+          </div>
+          <div class="uni-match tag tag-amber">91% match</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <span class="trust-label">Trusted by students from</span>
+    <div class="trust-logos">
+      <span class="t-logo">HARVARD</span>
+      <span class="t-logo">STANFORD</span>
+      <span class="t-logo">LSE</span>
+      <span class="t-logo">NUS</span>
+      <span class="t-logo">ETH ZÜRICH</span>
+      <span class="t-logo">IIT</span>
+      <span class="t-logo">OXFORD</span>
+    </div>
+  </div>
+</div>
+<!-- ABOUT US -->
+<section class="about-premium" id="about-us">
+
+<div class="section-inner">
+
+  <!-- HEADING -->
+  <div class="reveal" style="text-align:center; margin-bottom:4rem;">
+    <span class="section-tag">About Univestree</span>
+
+    <h2 class="section-h">
+      Empowering Students,<br>
+      Institutions & <em>Educational Growth</em>
+    </h2>
+
+    <p class="section-sub" style="margin:auto;">
+      We are a collective of passionate professionals, education counselors, innovators, and strategists dedicated to transforming the future of education through guidance, mentorship, technology, and institutional excellence.
+    </p>
+  </div>
+
+  <!-- FOUNDER SECTION -->
+  <div class="about-grid">
+
+    <!-- LEFT -->
+    <div class="reveal">
+
+      <div class="about-card">
+
+        <div class="about-founder-badge">
+          ✨ Founded in July 2025
+        </div>
+
+        <div class="about-founder-title">
+          A Vision Started by <em style="color:var(--primary); font-style:normal;">Abdul Basit Bedar</em>
+        </div>
+
+        <p class="about-founder-text">
+          For over a decade, Abdul Basit Bedar has dedicated himself to guiding students through one of the most defining journeys of life — education.
+        </p>
+
+        <p class="about-founder-text">
+          Having counselled thousands of students, he believes that education is not merely about degrees, but about discovering purpose, direction, and one’s true potential.
+        </p>
+
+        <p class="about-founder-text">
+          As the visionary Founder & CEO, his mission is to ensure that no student walks through confusion and uncertainty alone.
+        </p>
+
+        <p class="about-founder-text">
+          Through sincere mentorship and proper educational guidance, he strives to help students choose a path that leads not only to success — but to meaning, clarity, and lifelong impact.
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="about-highlight-grid reveal reveal-delay-1">
+
+      <div class="about-highlight"
+      style="background:linear-gradient(135deg,#2563EB,#3B82F6);">
+
+        <div style="font-size:2.2rem; margin-bottom:1rem;">🎓</div>
+
+        <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.7rem;">
+          Student-Centered Guidance
+        </h3>
+
+        <p style="line-height:1.8; opacity:0.92; font-size:0.9rem;">
+          Helping students discover opportunities across India and abroad through trusted counseling, mentorship, and educational direction.
+        </p>
+
+      </div>
+
+      <div class="about-highlight"
+      style="background:linear-gradient(135deg,#7C3AED,#A855F7);">
+
+        <div style="font-size:2.2rem; margin-bottom:1rem;">🏛️</div>
+
+        <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.7rem;">
+          Institutional Growth & PR
+        </h3>
+
+        <p style="line-height:1.8; opacity:0.92; font-size:0.9rem;">
+          Building strong institutional identities through branding, admissions support, digital outreach, and educational partnerships.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- TEAM -->
+  <div class="reveal" style="margin-top:2rem;">
+
+    <div style="text-align:center; margin-bottom:3rem;">
+      <span class="section-tag">Leadership Team</span>
+
+      <h2 class="section-h">
+        Meet the People Behind<br>
+        <em>Univestree</em>
+      </h2>
+    </div>
+
+    <div class="team-grid">
+
+      <!-- TEAM 1 -->
+      <div class="team-card">
+
+        <div class="team-avatar"
+        style="background:linear-gradient(135deg,#2563EB,#3B82F6)">
+          AB
+        </div>
+
+        <div class="team-role">
+          Founder & CEO
+        </div>
+
+        <div class="team-name">
+          Abdul Basit Bedar
+        </div>
+
+        <div class="team-desc">
+          A visionary education mentor dedicated to guiding students toward meaningful academic journeys through mentorship, trust, and purpose-driven counseling.
+        </div>
+
+      </div>
+
+      <!-- TEAM 2 -->
+      <div class="team-card">
+
+        <div class="team-avatar"
+        style="background:linear-gradient(135deg,#059669,#10B981)">
+          AM
+        </div>
+
+        <div class="team-role">
+          COO
+        </div>
+
+        <div class="team-name">
+          Er. Aaqib Maqbool
+        </div>
+
+        <div class="team-desc">
+          An experienced education counselor and scholarship expert helping students pursue MBBS and MD opportunities across India and around the world.
+        </div>
+
+      </div>
+
+      <!-- TEAM 3 -->
+      <div class="team-card">
+
+        <div class="team-avatar"
+        style="background:linear-gradient(135deg,#7C3AED,#A855F7)">
+          MM
+        </div>
+
+        <div class="team-role">
+          Chief Marketing Officer
+        </div>
+
+        <div class="team-name">
+          Muhammad Mursal Banday
+        </div>
+
+        <div class="team-desc">
+          A storyteller, strategist, and media personality building impactful educational outreach through communication, podcasts, and digital influence.
+        </div>
+
+      </div>
+
+      <!-- TEAM 4 -->
+      <div class="team-card">
+
+        <div class="team-avatar"
+        style="background:linear-gradient(135deg,#EA580C,#F97316)">
+          MB
+        </div>
+
+        <div class="team-role">
+          Chief Technology Officer
+        </div>
+
+        <div class="team-name">
+          Muhammad Mahin Bhat
+        </div>
+
+        <div class="team-desc">
+          Leading the technological vision of Univestree through scalable systems, digital innovation, automation, and modern educational platforms.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MISSION -->
+  <div class="reveal" style="margin-top:5rem;">
+
+    <div style="text-align:center; margin-bottom:2.5rem;">
+      <span class="section-tag">Our Mission</span>
+
+      <h2 class="section-h">
+        Building an Ecosystem of<br>
+        <em>Education, Opportunity & Impact</em>
+      </h2>
+    </div>
+
+    <div class="mission-grid">
+
+      <div class="mission-card">
+        <div class="mission-icon">🎯</div>
+        <div class="mission-title">Purpose-Driven Guidance</div>
+        <div class="mission-text">
+          Helping students make informed educational decisions with clarity and confidence.
+        </div>
+      </div>
+
+      <div class="mission-card">
+        <div class="mission-icon">🌍</div>
+        <div class="mission-title">Global Opportunities</div>
+        <div class="mission-text">
+          Connecting ambitious students with institutions and opportunities worldwide.
+        </div>
+      </div>
+
+      <div class="mission-card">
+        <div class="mission-icon">🏛️</div>
+        <div class="mission-title">Institutional Excellence</div>
+        <div class="mission-text">
+          Supporting educational institutions through branding, PR, outreach, and admissions growth.
+        </div>
+      </div>
+
+      <div class="mission-card">
+        <div class="mission-icon">🚀</div>
+        <div class="mission-title">Innovation & Technology</div>
+        <div class="mission-text">
+          Leveraging modern technology and digital systems to make educational guidance more accessible.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</section>
+<!-- HOW IT WORKS -->
+<section class="how" id="about">
+<div class="section-inner">
+  <div class="reveal">
+    <span class="section-tag">How It Works</span>
+    <h2 class="section-h">From Dream to <em>Acceptance</em><br>in 4 Simple Steps</h2>
+    <p class="section-sub">Univestree guides you every step of the way — from finding the right program to celebrating your acceptance letter.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card reveal reveal-delay-1">
+      <div class="step-num">STEP 01</div>
+      <div class="step-icon" style="background:#EFF6FF;">🔍</div>
+      <h3>Discover & Match</h3>
+      <p>Tell us your goals, budget, and preferences. Our AI matches you with universities where you're most likely to succeed.</p>
+    </div>
+    <div class="step-card reveal reveal-delay-2">
+      <div class="step-num">STEP 02</div>
+      <div class="step-icon" style="background:#F5F3FF;">👩‍🏫</div>
+      <h3>Book a Counsellor</h3>
+      <p>Connect 1-on-1 with a verified education counsellor who specializes in your target country and program.</p>
+    </div>
+    <div class="step-card reveal reveal-delay-3">
+      <div class="step-num">STEP 03</div>
+      <div class="step-icon" style="background:#ECFDF5;">📝</div>
+      <h3>Apply With Confidence</h3>
+      <p>Track all your applications in one dashboard. Get SOP reviews, document checklists, and deadline reminders.</p>
+    </div>
+    <div class="step-card reveal" style="transition-delay:0.4s">
+      <div class="step-num">STEP 04</div>
+      <div class="step-icon" style="background:#FFFBEB;">✈️</div>
+      <h3>Visa & Pre-Departure</h3>
+      <p>Ace your visa interview with mock sessions. Get housing tips, forex guidance, and city guides before you fly.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EXPLORE UNIVERSITIES -->
+<section id="explore">
+<div class="section-inner">
+  <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:2.5rem;">
+    <div class="reveal">
+      <span class="section-tag">Top Universities</span>
+      <h2 class="section-h">Explore <em>World-Class</em><br>Institutions</h2>
+    </div>
+    <div class="filter-chips reveal">
+      <span class="chip active">All</span>
+      <span class="chip">🇺🇸 USA</span>
+      <span class="chip">🇬🇧 UK</span>
+      <span class="chip">🇨🇦 Canada</span>
+      <span class="chip">🇦🇺 Australia</span>
+      <span class="chip">🇩🇪 Germany</span>
+    </div>
+  </div>
+  <div class="unis-grid">
+
+    <div class="uni-card reveal">
+      <div class="uni-card-img" style="background:linear-gradient(135deg,#1e3a5f,#2563EB);">🏛️</div>
+      <div class="uni-card-body">
+        <div class="uni-card-name">Massachusetts Institute of Technology</div>
+        <div class="uni-card-loc">📍 Cambridge, Massachusetts, USA</div>
+        <div class="uni-card-tags">
+          <span class="tag tag-blue">Engineering</span>
+          <span class="tag tag-green">STEM</span>
+          <span class="tag tag-amber">Top 3 QS</span>
+        </div>
+        <div class="uni-card-footer">
+          <div>
+            <div class="uni-card-rank">🏆 #1 QS World Ranking</div>
+            <div class="uni-card-courses">2,400+ Courses</div>
+          </div>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="uni-card reveal reveal-delay-1">
+      <div class="uni-card-img" style="background:linear-gradient(135deg,#4c1d95,#7C3AED);">🎓</div>
+      <div class="uni-card-body">
+        <div class="uni-card-name">University of Oxford</div>
+        <div class="uni-card-loc">📍 Oxford, England, UK</div>
+        <div class="uni-card-tags">
+          <span class="tag tag-purple">Humanities</span>
+          <span class="tag tag-blue">Law</span>
+          <span class="tag tag-amber">Top 5 QS</span>
+        </div>
+        <div class="uni-card-footer">
+          <div>
+            <div class="uni-card-rank">🏆 #3 QS World Ranking</div>
+            <div class="uni-card-courses">3,100+ Courses</div>
+          </div>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="uni-card reveal reveal-delay-2">
+      <div class="uni-card-img" style="background:linear-gradient(135deg,#065f46,#059669);">🍁</div>
+      <div class="uni-card-body">
+        <div class="uni-card-name">University of Toronto</div>
+        <div class="uni-card-loc">📍 Toronto, Ontario, Canada</div>
+        <div class="uni-card-tags">
+          <span class="tag tag-green">Medicine</span>
+          <span class="tag tag-blue">Research</span>
+          <span class="tag tag-amber">Scholarship</span>
+        </div>
+        <div class="uni-card-footer">
+          <div>
+            <div class="uni-card-rank">🏆 #21 QS World Ranking</div>
+            <div class="uni-card-courses">1,800+ Courses</div>
+          </div>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="uni-card reveal">
+      <div class="uni-card-img" style="background:linear-gradient(135deg,#7c2d12,#EA580C);">🦘</div>
+      <div class="uni-card-body">
+        <div class="uni-card-name">University of Melbourne</div>
+        <div class="uni-card-loc">📍 Melbourne, Victoria, Australia</div>
+        <div class="uni-card-tags">
+          <span class="tag tag-amber">Business</span>
+          <span class="tag tag-green">Arts</span>
+          <span class="tag tag-blue">Top 50</span>
+        </div>
+        <div class="uni-card-footer">
+          <div>
+            <div class="uni-card-rank">🏆 #33 QS World Ranking</div>
+            <div class="uni-card-courses">1,600+ Courses</div>
+          </div>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="uni-card reveal reveal-delay-1">
+      <div class="uni-card-img" style="background:linear-gradient(135deg,#1e293b,#334155);">🦅</div>
+      <div class="uni-card-body">
+        <div class="uni-card-name">ETH Zürich</div>
+        <div class="uni-card-loc">📍 Zürich, Switzerland</div>
+        <div class="uni-card-tags">
+          <span class="tag tag-blue">Engineering</span>
+          <span class="tag tag-purple">Science</span>
+          <span class="tag tag-green">Free Tuition</span>
+        </div>
+        <div class="uni-card-footer">
+          <div>
+            <div class="uni-card-rank">🏆 #7 QS World Ranking</div>
+            <div class="uni-card-courses">500+ Courses</div>
+          </div>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="uni-card reveal reveal-delay-2">
+      <div class="uni-card-img" style="background:linear-gradient(135deg,#164e63,#0891B2);">🎯</div>
+      <div class="uni-card-body">
+        <div class="uni-card-name">National University of Singapore</div>
+        <div class="uni-card-loc">📍 Singapore</div>
+        <div class="uni-card-tags">
+          <span class="tag tag-blue">Technology</span>
+          <span class="tag tag-amber">Asia #1</span>
+          <span class="tag tag-purple">MBA</span>
+        </div>
+        <div class="uni-card-footer">
+          <div>
+            <div class="uni-card-rank">🏆 #8 QS World Ranking</div>
+            <div class="uni-card-courses">2,000+ Courses</div>
+          </div>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="view-all-row" style="margin-top:2rem;">
+    <button class="btn-big outline">View All 12,000+ Universities →</button>
+  </div>
+</div>
+</section>
+
+<!-- COUNSELLORS -->
+<section class="counsellors-bg" id="counsellors">
+<div class="section-inner">
+  <div class="reveal">
+    <span class="section-tag">Expert Counsellors</span>
+    <h2 class="section-h">Book a Session with<br>an <em>Admission Expert</em></h2>
+    <p class="section-sub">Real people. Real experience. Connect with counsellors who've guided thousands of students into top programs worldwide.</p>
+  </div>
+  <div class="counsellors-grid">
+
+    <div class="counsellor-card reveal">
+      <div class="c-avatar" style="background:linear-gradient(135deg,#2563EB,#8B5CF6)">PR</div>
+      <div class="c-name">Priya Ramanathan</div>
+      <div class="c-spec">USA & UK Admissions Specialist</div>
+      <div class="c-stars">★★★★★</div>
+      <div class="c-reviews">4.97 · 843 sessions</div>
+      <div class="c-tags">
+        <span class="tag tag-blue" style="font-size:0.7rem">🇺🇸 USA</span>
+        <span class="tag tag-purple" style="font-size:0.7rem">🇬🇧 UK</span>
+        <span class="tag tag-green" style="font-size:0.7rem">SOP Review</span>
+      </div>
+      <div class="c-price">From ₹999 / session</div>
+      <button class="book-btn">Book a Session</button>
+    </div>
+
+    <div class="counsellor-card reveal reveal-delay-1">
+      <div class="c-avatar" style="background:linear-gradient(135deg,#059669,#10B981)">AK</div>
+      <div class="c-name">Aryan Kapoor</div>
+      <div class="c-spec">Canada & Australia Expert</div>
+      <div class="c-stars">★★★★★</div>
+      <div class="c-reviews">4.95 · 1,200 sessions</div>
+      <div class="c-tags">
+        <span class="tag tag-amber" style="font-size:0.7rem">🇨🇦 Canada</span>
+        <span class="tag tag-green" style="font-size:0.7rem">🇦🇺 Australia</span>
+        <span class="tag tag-blue" style="font-size:0.7rem">PR Guidance</span>
+      </div>
+      <div class="c-price">From ₹1,299 / session</div>
+      <button class="book-btn">Book a Session</button>
+    </div>
+
+    <div class="counsellor-card reveal reveal-delay-2">
+      <div class="c-avatar" style="background:linear-gradient(135deg,#DC2626,#F87171)">SM</div>
+      <div class="c-name">Sofia Martínez</div>
+      <div class="c-spec">Europe & Scholarships</div>
+      <div class="c-stars">★★★★★</div>
+      <div class="c-reviews">4.98 · 621 sessions</div>
+      <div class="c-tags">
+        <span class="tag tag-blue" style="font-size:0.7rem">🇩🇪 Germany</span>
+        <span class="tag tag-purple" style="font-size:0.7rem">🇫🇷 France</span>
+        <span class="tag tag-amber" style="font-size:0.7rem">Scholarships</span>
+      </div>
+      <div class="c-price">From ₹799 / session</div>
+      <button class="book-btn">Book a Session</button>
+    </div>
+
+    <div class="counsellor-card reveal" style="transition-delay:0.3s">
+      <div class="c-avatar" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">RN</div>
+      <div class="c-name">Rahul Nair</div>
+      <div class="c-spec">MBA & Business Schools</div>
+      <div class="c-stars">★★★★★</div>
+      <div class="c-reviews">4.93 · 980 sessions</div>
+      <div class="c-tags">
+        <span class="tag tag-purple" style="font-size:0.7rem">MBA</span>
+        <span class="tag tag-blue" style="font-size:0.7rem">GMAT Prep</span>
+        <span class="tag tag-green" style="font-size:0.7rem">Top 25 B-Schools</span>
+      </div>
+      <div class="c-price">From ₹1,999 / session</div>
+      <button class="book-btn">Book a Session</button>
+    </div>
+
+  </div>
+  <div class="view-all-row" style="margin-top:2rem;">
+    <button class="btn-big primary">View All 500+ Counsellors</button>
+  </div>
+</div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+<div class="section-inner">
+  <div class="reveal">
+    <span class="section-tag">Browse by Field</span>
+    <h2 class="section-h">Find Your <em>Perfect</em> Program</h2>
+    <p class="section-sub">From engineering to arts, explore thousands of programs across every discipline.</p>
+  </div>
+  <div class="courses-grid">
+    <div class="course-card reveal">
+      <div class="course-icon" style="background:#EFF6FF;">💻</div>
+      <h3>Computer Science & IT</h3>
+      <p>AI, Data Science, Cybersecurity, Software Engineering and more.</p>
+      <div class="course-meta">
+        <span class="course-count">3,240 programs</span>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+    <div class="course-card reveal reveal-delay-1">
+      <div class="course-icon" style="background:#FFFBEB;">💼</div>
+      <h3>Business & Management</h3>
+      <p>MBA, Finance, Marketing, International Business, Supply Chain.</p>
+      <div class="course-meta">
+        <span class="course-count">2,890 programs</span>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+    <div class="course-card reveal reveal-delay-2">
+      <div class="course-icon" style="background:#ECFDF5;">⚕️</div>
+      <h3>Medicine & Health Sciences</h3>
+      <p>MBBS, Nursing, Public Health, Dentistry, Pharmacy programs.</p>
+      <div class="course-meta">
+        <span class="course-count">1,560 programs</span>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+    <div class="course-card reveal" style="transition-delay:0.3s">
+      <div class="course-icon" style="background:#F5F3FF;">⚙️</div>
+      <h3>Engineering & Technology</h3>
+      <p>Mechanical, Civil, Electrical, Aerospace, Biomedical Engineering.</p>
+      <div class="course-meta">
+        <span class="course-count">2,100 programs</span>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="course-icon" style="background:#FFF7ED;">🎨</div>
+      <h3>Arts, Design & Architecture</h3>
+      <p>Fine Arts, Graphic Design, Fashion, Interior Architecture.</p>
+      <div class="course-meta">
+        <span class="course-count">980 programs</span>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+    <div class="course-card reveal reveal-delay-1">
+      <div class="course-icon" style="background:#F0FDF4;">🔬</div>
+      <h3>Natural Sciences</h3>
+      <p>Physics, Chemistry, Biology, Environmental Science, Biotech.</p>
+      <div class="course-meta">
+        <span class="course-count">1,340 programs</span>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+    <div class="course-card reveal reveal-delay-2">
+      <div class="course-icon" style="background:#FDF4FF;">⚖️</div>
+      <h3>Law & Legal Studies</h3>
+      <p>LLB, LLM, International Law, Human Rights, Corporate Law.</p>
+      <div class="course-meta">
+        <span class="course-count">760 programs</span>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+    <div class="course-card reveal" style="transition-delay:0.3s">
+      <div class="course-icon" style="background:#FFF1F2;">🌏</div>
+      <h3>Social Sciences & Humanities</h3>
+      <p>Psychology, Economics, History, Journalism, Political Science.</p>
+      <div class="course-meta">
+        <span class="course-count">1,820 programs</span>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- COUNTRIES -->
+<section id="countries" style="background:var(--card);">
+<div class="section-inner">
+  <div class="reveal">
+    <span class="section-tag">Study Destinations</span>
+    <h2 class="section-h">Study Anywhere in the <em>World</em></h2>
+    <p class="section-sub">From the Ivy League to free-tuition European universities — find the country that fits your goals and budget.</p>
+  </div>
+  <div class="countries-grid">
+    <div class="country-card reveal"><div class="country-flag">🇺🇸</div><div class="country-name">United States</div><div class="country-unis">4,700+ universities</div></div>
+    <div class="country-card reveal reveal-delay-1"><div class="country-flag">🇬🇧</div><div class="country-name">United Kingdom</div><div class="country-unis">164 universities</div></div>
+    <div class="country-card reveal reveal-delay-2"><div class="country-flag">🇨🇦</div><div class="country-name">Canada</div><div class="country-unis">223 universities</div></div>
+    <div class="country-card reveal"><div class="country-flag">🇦🇺</div><div class="country-name">Australia</div><div class="country-unis">43 universities</div></div>
+    <div class="country-card reveal reveal-delay-1"><div class="country-flag">🇩🇪</div><div class="country-name">Germany</div><div class="country-unis">400+ universities</div></div>
+    <div class="country-card reveal reveal-delay-2"><div class="country-flag">🇫🇷</div><div class="country-name">France</div><div class="country-unis">250+ universities</div></div>
+    <div class="country-card reveal"><div class="country-flag">🇸🇬</div><div class="country-name">Singapore</div><div class="country-unis">34 universities</div></div>
+    <div class="country-card reveal reveal-delay-1"><div class="country-flag">🇯🇵</div><div class="country-name">Japan</div><div class="country-unis">800+ universities</div></div>
+    <div class="country-card reveal reveal-delay-2"><div class="country-flag">🇳🇱</div><div class="country-name">Netherlands</div><div class="country-unis">80+ universities</div></div>
+    <div class="country-card reveal"><div class="country-flag">🇮🇪</div><div class="country-name">Ireland</div><div class="country-unis">34 universities</div></div>
+    <div class="country-card reveal reveal-delay-1"><div class="country-flag">🇳🇿</div><div class="country-name">New Zealand</div><div class="country-unis">8 universities</div></div>
+    <div class="country-card reveal reveal-delay-2" style="border:2px dashed var(--border); color:var(--muted);">
+      <div class="country-flag">🌍</div><div class="country-name">+ 70 more</div><div class="country-unis">Explore all</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- WHY UNIVESTREE -->
+<section class="features-bg">
+<div class="section-inner">
+  <div class="reveal">
+    <span class="section-tag">Why Univestree</span>
+    <h2 class="section-h">Everything You Need,<br><em>All in One Place</em></h2>
+    <p class="section-sub">No more juggling 10 tabs and 5 agents. Univestree is your complete admission companion.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feat-card reveal">
+      <div class="feat-icon" style="background:rgba(37,99,235,0.2)">🤖</div>
+      <h3>AI-Powered University Matching</h3>
+      <p>Answer 5 quick questions and our algorithm finds your best-fit universities based on academic profile, budget, and career goals.</p>
+    </div>
+    <div class="feat-card reveal reveal-delay-1">
+      <div class="feat-icon" style="background:rgba(245,158,11,0.2)">📊</div>
+      <h3>Application Tracker Dashboard</h3>
+      <p>Manage all your applications, deadlines, documents, and requirements in one clean dashboard — never miss a date.</p>
+    </div>
+    <div class="feat-card reveal reveal-delay-2">
+      <div class="feat-icon" style="background:rgba(16,185,129,0.2)">🎓</div>
+      <h3>Scholarship Finder</h3>
+      <p>Discover 10,000+ scholarships, grants, and fellowships filtered specifically for your profile, nationality, and program.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon" style="background:rgba(139,92,246,0.2)">✍️</div>
+      <h3>SOP & Essay Reviews</h3>
+      <p>Get your Statement of Purpose reviewed by counsellors who have been on admission committees. Real feedback, fast.</p>
+    </div>
+    <div class="feat-card reveal reveal-delay-1">
+      <div class="feat-icon" style="background:rgba(236,72,153,0.2)">🛂</div>
+      <h3>Visa Preparation Support</h3>
+      <p>Country-specific visa guides, mock interviews, document checklists, and direct support for student visa applications.</p>
+    </div>
+    <div class="feat-card reveal reveal-delay-2">
+      <div class="feat-icon" style="background:rgba(14,165,233,0.2)">🌐</div>
+      <h3>Student Community</h3>
+      <p>Connect with students already studying at your target university. Get real, unfiltered advice from people who've been through it.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-bg">
+<div class="section-inner">
+  <div class="reveal">
+    <span class="section-tag">Student Stories</span>
+    <h2 class="section-h">Real Students, <em>Real Admits</em></h2>
+    <p class="section-sub">Don't take our word for it. Hear from students who found their path through Univestree.</p>
+  </div>
+  <div class="test-grid">
+    <div class="test-card reveal">
+      <div class="test-quote">"</div>
+      <p class="test-text">I had no idea where to start with UK universities. My counsellor on Univestree helped me shortlist 6 universities, reviewed my SOP three times, and I got into UCL. Worth every rupee!</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background:linear-gradient(135deg,#2563EB,#8B5CF6)">AS</div>
+        <div>
+          <div class="test-name">Ananya Sharma</div>
+          <div class="test-info">Admitted to UCL, MSc Data Science · Delhi</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card reveal reveal-delay-1">
+      <div class="test-quote">"</div>
+      <p class="test-text">The scholarship finder alone paid for my subscription 100x over. I found a fully-funded Masters at TU Munich that I didn't even know existed. Univestree changed my life.</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background:linear-gradient(135deg,#059669,#10B981)">RK</div>
+        <div>
+          <div class="test-name">Rohan Kulkarni</div>
+          <div class="test-info">Fully-funded MSc at TU Munich · Pune</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card reveal reveal-delay-2">
+      <div class="test-quote">"</div>
+      <p class="test-text">As a working professional, I had very little time. The AI match tool gave me a focused list in minutes. I applied to 4 universities and got into 3, including my dream school — McGill.</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background:linear-gradient(135deg,#DC2626,#F87171)">MP</div>
+        <div>
+          <div class="test-name">Meera Pillai</div>
+          <div class="test-info">MBA at McGill University · Bengaluru</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-box reveal">
+    <div style="font-size:2.5rem; margin-bottom:1rem;">🎓</div>
+    <h2>Ready to Find Your<br><em>Dream University?</em></h2>
+    <p>Join 120,000+ students who found their path with Univestree. It's free to start.</p>
+    <div class="cta-row">
+      <input class="email-input" type="email" placeholder="Enter your email address">
+      <button class="btn-big primary">Get Started Free →</button>
+    </div>
+    <p style="font-size:0.76rem; color:var(--muted); margin-top:1rem;">No credit card required · Free forever plan available</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Unive<span>stree</span></div>
+        <p class="footer-tagline">Your global gateway to university admission. Discover, apply, and succeed — anywhere in the world.</p>
+        <div class="footer-socials">
+          <div class="social-btn">𝕏</div>
+          <div class="social-btn">in</div>
+          <div class="social-btn">f</div>
+          <div class="social-btn">▶</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#">Universities</a></li>
+          <li><a href="#">Courses & Programs</a></li>
+          <li><a href="#">Scholarships</a></li>
+          <li><a href="#">Study Countries</a></li>
+          <li><a href="#">Rankings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Book a Counsellor</a></li>
+          <li><a href="#">SOP Review</a></li>
+          <li><a href="#">Visa Guidance</a></li>
+          <li><a href="#">Test Prep</a></li>
+          <li><a href="#">Application Tracker</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Blog & Guides</a></li>
+          <li><a href="#">Webinars</a></li>
+          <li><a href="#">Student Community</a></li>
+          <li><a href="#">Country Guides</a></li>
+          <li><a href="#">Deadline Calendar</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Become a Counsellor</a></li>
+          <li><a href="#">Partner Universities</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Univestree. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Filter chips interaction
+  document.querySelectorAll('.filter-chips').forEach(group => {
+    group.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+  });
+
+  // Search tabs
+  document.querySelectorAll('.s-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // CTA email
+  document.querySelector('.cta-section .btn-big').addEventListener('click', () => {
+    const input = document.querySelector('.email-input');
+    if (input.value.includes('@')) {
+      input.style.borderColor = '#10B981';
+      input.value = '✅ You\'re on the list!';
+      input.disabled = true;
+    } else {
+      input.style.borderColor = '#EF4444';
+      input.placeholder = 'Please enter a valid email';
+    }
+  });
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Trigger hero reveals on load
+  setTimeout(() => document.querySelectorAll('.hero .reveal').forEach(r => r.classList.add('in')), 100);
+</script>
+</body>
+</html>
