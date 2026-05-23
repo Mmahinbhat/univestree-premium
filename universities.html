@@ -152,6 +152,7 @@ const gradients = [
 const params = new URLSearchParams(window.location.search);
 if (params.get('query')) document.getElementById('searchInput').value = params.get('query');
 if (params.get('country')) document.getElementById('countryFilter').value = params.get('country');
+if (params.get('level')) { const chips = document.querySelectorAll('.filter-chip'); chips.forEach(c => { if (c.textContent.includes(params.get('level'))) c.classList.add('active'); }); }
 
 function cardHTML(u, i) {
   const color = gradients[i % gradients.length];
@@ -193,7 +194,10 @@ async function fetchAndDisplay() {
   container.innerHTML = '<div class="loading">⏳ Searching...</div>';
   let url = `${API}/search?`;
   if (query) url += `query=${encodeURIComponent(query)}&`;
-  if (country) url += `country=${encodeURIComponent(country)}`;
+  if (country) url += `country=${encodeURIComponent(country)}&`;
+  const activeChip = document.querySelector('.filter-chip.active');
+  const level = activeChip ? activeChip.dataset.level || activeChip.textContent.trim() : '';
+  if (level && level !== 'All') url += `level=${encodeURIComponent(level)}`;
   try {
     const res = await fetch(url);
     const data = await res.json();

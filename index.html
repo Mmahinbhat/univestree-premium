@@ -800,7 +800,22 @@
       <p id="hwMsg" style="font-size:0.85rem;min-height:18px;margin:0;"></p>
     </div>
     <script>
-    async function joinWaitlist() {
+    function setLevel(el) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+function doHeroSearch() {
+  const q = document.getElementById('searchInput').value;
+  const c = document.getElementById('countryFilter') ? document.getElementById('countryFilter').value : '';
+  const activeChip = document.querySelector('.chip.active');
+  const level = activeChip ? activeChip.dataset.level || '' : '';
+  let url = 'universities.html?';
+  if (q) url += 'query=' + encodeURIComponent(q) + '&';
+  if (c) url += 'country=' + encodeURIComponent(c) + '&';
+  if (level) url += 'level=' + encodeURIComponent(level);
+  window.location.href = url;
+}
+async function joinWaitlist() {
       const name = document.getElementById('hwName').value.trim();
       const email = document.getElementById('hwEmail').value.trim();
       const msg = document.getElementById('hwMsg');
@@ -858,11 +873,11 @@
         <button class="search-btn" onclick="const q=document.getElementById(\'searchInput\').value; const c=document.getElementById(\'countryFilter\').value; window.location.href=\'universities.html?query=\'+encodeURIComponent(q)+\'&country=\'+encodeURIComponent(c)">🔍</button>
       </div>
       <div class="filter-chips">
-        <span class="chip active" onclick="document.getElementById('searchInput').value='UG Programs';document.querySelector('.search-btn').click()">🎓 UG Programs</span>
-        <span class="chip" onclick="document.getElementById('searchInput').value='Masters';document.querySelector('.search-btn').click()">📚 Masters</span>
-        <span class="chip" onclick="document.getElementById('searchInput').value='PhD';document.querySelector('.search-btn').click()">🔬 PhD</span>
+        <span class="chip active" data-level="UG" onclick="setLevel(this)">🎓 UG Programs</span>
+        <span class="chip" data-level="Masters" onclick="setLevel(this)">📚 Masters</span>
+        <span class="chip" data-level="PhD" onclick="setLevel(this)">🔬 PhD</span>
         
-        <span class="chip" onclick="document.getElementById('searchInput').value='Online';document.querySelector('.search-btn').click()">🌐 Online</span>
+        <span class="chip" data-level="Online" onclick="setLevel(this)">🌐 Online</span>
       </div>
       <div style="font-size:0.78rem; color:var(--muted); font-weight:600; margin-bottom:0.6rem;">⚡ Popular right now</div>
       <div class="mini-unis">
