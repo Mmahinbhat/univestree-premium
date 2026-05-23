@@ -9,102 +9,118 @@
 <style>
   :root {
     --primary: #2563EB; --primary-dark: #1D4ED8;
-    --accent3: #8B5CF6; --bg: #F8F7F4; --card: #FFFFFF;
+    --accent3: #8B5CF6; --bg: #F0F4FF; --card: #FFFFFF;
     --text: #111827; --muted: #6B7280; --border: #E5E7EB;
-    --radius: 18px; --shadow: 0 4px 24px rgba(0,0,0,0.07);
+    --radius: 16px; --shadow: 0 2px 16px rgba(0,0,0,0.08);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Sora', sans-serif; background: var(--bg); color: var(--text); }
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(248,247,244,0.92); backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px;
+    padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 64px;
   }
-  .logo {
-    font-size: 1.45rem; font-weight: 800;
-    background: linear-gradient(135deg, var(--primary), var(--accent3));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  .logo { font-size: 1.3rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+  .nav-back { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.88rem; }
+  .page-wrap { padding: 88px 4% 60px; max-width: 1400px; margin: 0 auto; }
+  .page-header { padding: 28px 0 20px; }
+  h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; }
+  .search-bar {
+    display: flex; gap: 10px; margin: 20px 0 12px; flex-wrap: wrap;
+    background: white; padding: 14px; border-radius: var(--radius);
+    box-shadow: var(--shadow); align-items: center;
   }
-  .nav-back { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
-  .page-wrap { padding: 100px 5% 60px; max-width: 1300px; margin: 0 auto; }
-  h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.3rem; }
-  .subtitle { color: var(--muted); margin-bottom: 2rem; }
-  .search-row {
-    display: flex; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap;
-    background: var(--card); padding: 16px; border-radius: var(--radius); box-shadow: var(--shadow);
+  .search-bar input {
+    flex: 1; min-width: 180px; padding: 10px 14px;
+    border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'Sora', sans-serif; font-size: 0.9rem; outline: none;
   }
-  .search-row input {
-    flex: 1; min-width: 200px; padding: 12px 16px;
-    border: 1px solid var(--border); border-radius: 10px;
-    font-family: 'Sora', sans-serif; font-size: 0.95rem; outline: none;
-  }
-  .search-row input:focus { border-color: var(--primary); }
-  .search-row select {
-    padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px;
-    font-family: 'Sora', sans-serif; font-size: 0.95rem; background: white; outline: none;
+  .search-bar input:focus { border-color: var(--primary); }
+  .search-bar select {
+    padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'Sora', sans-serif; font-size: 0.88rem; background: white; outline: none; cursor: pointer;
   }
   .search-btn {
-    padding: 12px 24px; background: var(--primary); color: white;
-    border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 1rem;
-    font-family: 'Sora', sans-serif;
+    padding: 10px 22px; background: var(--primary); color: white;
+    border: none; border-radius: 10px; font-weight: 700; cursor: pointer;
+    font-family: 'Sora', sans-serif; font-size: 0.9rem; white-space: nowrap;
   }
   .search-btn:hover { background: var(--primary-dark); }
-  .results-count { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.2rem; }
+  .results-count { color: var(--muted); font-size: 0.85rem; margin-bottom: 16px; padding-left: 2px; }
   .unis-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
   }
   .uni-card {
-    background: var(--card); border-radius: var(--radius); padding: 22px;
-    box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
-    display: flex; flex-direction: column; gap: 10px;
+    background: white; border-radius: var(--radius);
+    box-shadow: var(--shadow); overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform 0.18s, box-shadow 0.18s;
+    border: 1px solid var(--border);
   }
-  .uni-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(37,99,235,0.13); }
-  .uni-header { display: flex; align-items: center; gap: 14px; }
-  .uni-logo-wrap {
-    width: 52px; height: 52px; border-radius: 12px; overflow: hidden;
-    border: 1px solid var(--border); background: white; flex-shrink: 0;
+  .uni-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(37,99,235,0.12); }
+  .card-top {
+    padding: 20px 20px 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .logo-box {
+    width: 56px; height: 56px; border-radius: 12px;
+    border: 1.5px solid var(--border); background: #F9FAFB;
     display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden;
   }
-  .uni-logo-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
-  .uni-logo-fallback {
-    width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 1.3rem; color: white;
+  .logo-box img { width: 48px; height: 48px; object-fit: contain; }
+  .logo-box.fallback {
+    color: white; font-size: 1.4rem; font-weight: 800;
+    border: none;
   }
-  .uni-name { font-weight: 700; font-size: 0.98rem; line-height: 1.3; }
-  .uni-location { color: var(--muted); font-size: 0.82rem; }
-  .uni-stats { display: flex; gap: 8px; flex-wrap: wrap; }
-  .stat-chip {
-    background: #F3F4F6; border-radius: 8px; padding: 4px 10px;
-    font-size: 0.76rem; font-weight: 600; color: var(--text);
+  .uni-info { flex: 1; min-width: 0; }
+  .uni-name { font-weight: 700; font-size: 0.92rem; line-height: 1.35; margin-bottom: 3px; }
+  .uni-loc { color: var(--muted); font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-stats {
+    padding: 0 20px 12px;
+    display: flex; gap: 6px; flex-wrap: wrap;
   }
-  .programs { display: flex; gap: 5px; flex-wrap: wrap; }
-  .prog-tag {
-    background: #EFF6FF; color: var(--primary); border-radius: 6px;
-    padding: 3px 8px; font-size: 0.73rem; font-weight: 500;
+  .chip {
+    background: #F3F4F6; border-radius: 20px;
+    padding: 4px 10px; font-size: 0.74rem; font-weight: 600; color: #374151;
   }
+  .chip.green { background: #ECFDF5; color: #065F46; }
+  .chip.blue { background: #EFF6FF; color: #1D4ED8; }
+  .chip.amber { background: #FFFBEB; color: #92400E; }
+  .card-programs {
+    padding: 0 20px 14px;
+    display: flex; gap: 5px; flex-wrap: wrap;
+  }
+  .prog { background: #EFF6FF; color: var(--primary); border-radius: 6px; padding: 3px 8px; font-size: 0.71rem; font-weight: 500; }
+  .card-footer { padding: 0 16px 16px; margin-top: auto; }
   .view-btn {
-    margin-top: auto; padding: 10px; background: var(--primary); color: white;
+    width: 100%; padding: 10px; background: var(--primary); color: white;
     border: none; border-radius: 10px; font-weight: 600; cursor: pointer;
-    font-family: 'Sora', sans-serif; font-size: 0.88rem; width: 100%;
+    font-family: 'Sora', sans-serif; font-size: 0.85rem;
+    transition: background 0.15s;
   }
   .view-btn:hover { background: var(--primary-dark); }
-  .loading { text-align: center; padding: 80px; color: var(--muted); font-size: 1.1rem; }
-  .no-results { text-align: center; padding: 80px; color: var(--muted); }
-  .no-results h3 { font-size: 1.3rem; margin-bottom: 8px; color: var(--text); }
+  .loading { text-align: center; padding: 80px; color: var(--muted); font-size: 1rem; grid-column: 1/-1; }
+  .no-results { text-align: center; padding: 80px; color: var(--muted); grid-column: 1/-1; }
+  .no-results h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text); }
 </style>
 </head>
 <body>
 <nav>
-  <div class="logo">🌳 Univestree</div>
+  <a href="index.html" class="logo">🌳 Univestree</a>
   <a href="index.html" class="nav-back">← Back to Home</a>
 </nav>
 <div class="page-wrap">
-  <h1>Find Your University</h1>
-  <p class="subtitle">Search across 96+ top universities worldwide</p>
-  <div class="search-row">
-    <input type="text" id="searchInput" placeholder="Search university, course, country...">
+  <div class="page-header">
+    <h1>Find Your University</h1>
+    <p class="subtitle">Search across 96+ top universities worldwide</p>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍  Search university, country, or program...">
     <select id="countryFilter">
       <option value="">🌍 All Countries</option>
       <option>USA</option><option>UK</option><option>Canada</option>
@@ -120,30 +136,53 @@
       <option>Norway</option><option>Belgium</option><option>New Zealand</option>
       <option>Argentina</option><option>Ghana</option><option>Kenya</option><option>Egypt</option>
     </select>
-    <button class="search-btn" onclick="fetchAndDisplay()">🔍 Search</button>
+    <button class="search-btn" onclick="fetchAndDisplay()">Search</button>
   </div>
   <div class="results-count" id="resultsCount"></div>
   <div class="unis-grid" id="universitiesContainer">
-    <div class="loading">Loading universities...</div>
+    <div class="loading">⏳ Loading universities...</div>
   </div>
 </div>
 <script>
 const API = 'https://univestree-backend.vercel.app/api/universities';
-const colors = ['linear-gradient(135deg,#1D4ED8,#3B82F6)','linear-gradient(135deg,#7C3AED,#8B5CF6)','linear-gradient(135deg,#059669,#34D399)','linear-gradient(135deg,#D97706,#F59E0B)','linear-gradient(135deg,#DC2626,#F87171)','linear-gradient(135deg,#0891B2,#22D3EE)'];
+const gradients = [
+  '#1D4ED8','#7C3AED','#059669','#D97706','#DC2626','#0891B2','#DB2777','#65A30D'
+];
 
 const params = new URLSearchParams(window.location.search);
 if (params.get('query')) document.getElementById('searchInput').value = params.get('query');
 if (params.get('country')) document.getElementById('countryFilter').value = params.get('country');
 
-function logoHTML(uni, i) {
-  if (uni.logo) {
-    return `<div class="uni-logo-wrap">
-      <img src="${uni.logo}" alt="${uni.name}" 
-        onerror="this.parentElement.outerHTML='<div class=\\"uni-logo-fallback\\" style=\\"background:${colors[i % colors.length]}\\">${uni.name.charAt(0)}</div>'"
-      >
-    </div>`;
-  }
-  return `<div class="uni-logo-fallback" style="background:${colors[i % colors.length]}">${uni.name.charAt(0)}</div>`;
+function cardHTML(u, i) {
+  const color = gradients[i % gradients.length];
+  const logoEl = u.logo
+    ? `<div class="logo-box"><img src="${u.logo}" alt="${u.name[0]}" onerror="this.parentElement.className='logo-box fallback';this.parentElement.style.background='${color}';this.parentElement.innerHTML='${u.name[0]}'"></div>`
+    : `<div class="logo-box fallback" style="background:${color}">${u.name[0]}</div>`;
+
+  const tuitionChip = u.tuition === 0
+    ? `<span class="chip green">🆓 Free tuition</span>`
+    : `<span class="chip amber">💰 $${u.tuition?.toLocaleString()}/yr</span>`;
+
+  return `<div class="uni-card">
+    <div class="card-top">
+      ${logoEl}
+      <div class="uni-info">
+        <div class="uni-name">${u.name}</div>
+        <div class="uni-loc">📍 ${u.city ? u.city + ', ' : ''}${u.country}</div>
+      </div>
+    </div>
+    <div class="card-stats">
+      <span class="chip">🏆 Rank #${u.ranking}</span>
+      <span class="chip green">✅ ${u.acceptanceRate}% accept</span>
+      ${tuitionChip}
+    </div>
+    <div class="card-programs">
+      ${(u.programs || []).slice(0,3).map(p => `<span class="prog">${p}</span>`).join('')}
+    </div>
+    <div class="card-footer">
+      <button class="view-btn" onclick="window.location.href='university-details.html?id=${u.id}'">View Details →</button>
+    </div>
+  </div>`;
 }
 
 async function fetchAndDisplay() {
@@ -151,7 +190,7 @@ async function fetchAndDisplay() {
   const country = document.getElementById('countryFilter').value;
   const container = document.getElementById('universitiesContainer');
   const countEl = document.getElementById('resultsCount');
-  container.innerHTML = '<div class="loading">Searching...</div>';
+  container.innerHTML = '<div class="loading">⏳ Searching...</div>';
   let url = `${API}/search?`;
   if (query) url += `query=${encodeURIComponent(query)}&`;
   if (country) url += `country=${encodeURIComponent(country)}`;
@@ -160,31 +199,13 @@ async function fetchAndDisplay() {
     const data = await res.json();
     const unis = Array.isArray(data) ? data : [];
     countEl.textContent = `${unis.length} universit${unis.length === 1 ? 'y' : 'ies'} found`;
-    if (unis.length === 0) {
+    if (!unis.length) {
       container.innerHTML = '<div class="no-results"><h3>No universities found</h3><p>Try a different search or country</p></div>';
       return;
     }
-    container.innerHTML = unis.map((u, i) => `
-      <div class="uni-card">
-        <div class="uni-header">
-          ${logoHTML(u, i)}
-          <div>
-            <div class="uni-name">${u.name}</div>
-            <div class="uni-location">📍 ${u.city ? u.city + ', ' : ''}${u.country}</div>
-          </div>
-        </div>
-        <div class="uni-stats">
-          <span class="stat-chip">🏆 #${u.ranking}</span>
-          <span class="stat-chip">✅ ${u.acceptanceRate}%</span>
-          ${u.tuition === 0 ? '<span class="stat-chip">🆓 Free</span>' : `<span class="stat-chip">💰 $${u.tuition?.toLocaleString()}/yr</span>`}
-        </div>
-        <div class="programs">${(u.programs || []).slice(0,3).map(p => `<span class="prog-tag">${p}</span>`).join('')}</div>
-        <button class="view-btn" onclick="window.location.href='university-details.html?id=${u.id}'">View Details →</button>
-      </div>
-    `).join('');
+    container.innerHTML = unis.map(cardHTML).join('');
   } catch(e) {
-    container.innerHTML = '<div class="no-results"><h3>Error loading results</h3><p>Please try again</p></div>';
-    console.error(e);
+    container.innerHTML = '<div class="no-results"><h3>Something went wrong</h3><p>Please try again</p></div>';
   }
 }
 
