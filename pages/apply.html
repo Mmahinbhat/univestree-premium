@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Apply Now - Univestree</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+Univestree
+</div>
+
+<ul>
+
+<li>
+<a href="../index.html">
+Home
+</a>
+</li>
+
+<li>
+<a href="universities.html">
+Universities
+</a>
+</li>
+
+<li>
+<a href="courses.html">
+Courses
+</a>
+</li>
+
+<li>
+<a href="dashboard.html">
+Dashboard
+</a>
+</li>
+
+</ul>
+
+<div class="nav-buttons">
+
+<button
+class="btn btn-outline"
+onclick="logoutUser()">
+
+Logout
+
+</button>
+
+</div>
+
+</nav>
+
+<section class="section">
+
+<div
+style="
+max-width:700px;
+margin:auto;
+background:white;
+padding:40px;
+border-radius:20px;
+box-shadow:0 10px 40px rgba(0,0,0,0.08);
+">
+
+<h1
+style="
+margin-bottom:10px;
+">
+University Application
+</h1>
+
+<p
+style="
+color:#666;
+margin-bottom:30px;
+">
+Fill the form below to start your admission process
+</p>
+
+<input
+id="student-name"
+type="text"
+placeholder="Full Name"
+style="
+width:100%;
+padding:15px;
+margin-bottom:20px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:16px;
+">
+
+<input
+id="student-email"
+type="email"
+placeholder="Email Address"
+style="
+width:100%;
+padding:15px;
+margin-bottom:20px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:16px;
+">
+
+<input
+id="student-university"
+type="text"
+placeholder="Preferred University"
+style="
+width:100%;
+padding:15px;
+margin-bottom:20px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:16px;
+">
+
+<select
+id="student-course"
+style="
+width:100%;
+padding:15px;
+margin-bottom:20px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:16px;
+">
+
+<option>
+Select Course
+</option>
+
+<option>
+Computer Science
+</option>
+
+<option>
+Business Management
+</option>
+
+<option>
+Medicine
+</option>
+
+<option>
+Engineering
+</option>
+
+<option>
+Law
+</option>
+
+</select>
+
+<textarea
+id="student-goals"
+placeholder="Tell us about your goals..."
+style="
+width:100%;
+height:150px;
+padding:15px;
+margin-bottom:20px;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:16px;
+resize:none;
+"></textarea>
+
+<button
+onclick="submitApplication()"
+class="btn btn-primary"
+style="
+width:100%;
+padding:15px;
+font-size:16px;
+">
+
+Submit Application
+
+</button>
+
+</div>
+
+</section>
+
+<script type="module" src="../js/firebase.js"></script>
+
+</body>
+</html>

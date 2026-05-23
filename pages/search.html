@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+
+  <title>
+    Search Universities | Univestree
+  </title>
+
+  <link rel="stylesheet"
+        href="../css/style.css" />
+
+</head>
+
+<body>
+
+  <!-- Navbar -->
+
+  <header class="navbar">
+
+    <div class="logo">
+      Univestree
+    </div>
+
+    <nav>
+
+      <a href="../index.html">
+        Home
+      </a>
+
+      <a href="universities.html">
+        Universities
+      </a>
+
+      <a href="courses.html">
+        Courses
+      </a>
+
+      <a href="dashboard.html">
+        Dashboard
+      </a>
+
+    </nav>
+
+  </header>
+
+  <!-- Hero -->
+
+  <section class="hero small-hero">
+
+    <div class="hero-content">
+
+      <h1>
+        Search Universities
+      </h1>
+
+      <p>
+        Find universities by country, course and ranking.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- Search Section -->
+
+  <section class="info-section">
+
+    <div class="search-box">
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search university..."
+      />
+
+      <select id="countryFilter">
+
+        <option value="">
+          All Countries
+        </option>
+
+        <option value="United States">
+          United States
+        </option>
+
+        <option value="United Kingdom">
+          United Kingdom
+        </option>
+
+        <option value="Canada">
+          Canada
+        </option>
+
+      </select>
+
+    </div>
+
+    <div
+      id="universitiesContainer"
+      class="card-container">
+
+    </div>
+
+  </section>
+
+  <script src="../js/universities.js"></script>
+
+</body>
+</html>
