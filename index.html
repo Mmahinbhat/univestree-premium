@@ -846,7 +846,7 @@
       </div>
       <div class="card-title">Where do you want to study?</div>
       <div class="search-row">
-        <input type="text" id="searchInput" placeholder="Search university, course, country...">
+        <input type="text" id="searchInput" placeholder="Search university, course, country..." onkeydown="if(event.key==='Enter')document.querySelector('.search-btn').click()">
         <select id="countryFilter">
           <option>All Countries</option>
           <option>🇺🇸 USA</option>
@@ -855,7 +855,20 @@
           <option>🇦🇺 Australia</option>
           <option>🇩🇪 Germany</option>
         </select>
-        <button class="search-btn" onclick="const q=document.getElementById('searchInput').value; const c=document.getElementById('countryFilter').value; window.location.href='universities.html?query='+encodeURIComponent(q)+'&country='+encodeURIComponent(c)">🔍</button>
+        <button class="search-btn" onclick="
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const c=document.getElementById('countryFilter').value.toLowerCase();
+  const cards=document.querySelectorAll('.uni-card');
+  let shown=0;
+  cards.forEach(card=>{
+    const name=(card.querySelector('.uni-card-name')||card).textContent.toLowerCase();
+    const loc=(card.querySelector('.uni-card-loc')||{textContent:''}).textContent.toLowerCase();
+    const match=(!q||name.includes(q)||loc.includes(q))&&(!c||c==='all countries'||loc.includes(c));
+    card.style.display=match?'':'none'; if(match)shown++;
+  });
+  const sec=document.querySelector('.unis-section')||document.querySelector('.section-inner');
+  if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+">🔍</button>
       </div>
       <div class="filter-chips">
         <span class="chip active">🎓 UG Programs</span>
