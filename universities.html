@@ -156,8 +156,9 @@ if (params.get('level')) { const chips = document.querySelectorAll('.filter-chip
 
 function cardHTML(u, i) {
   const color = gradients[i % gradients.length];
-  const logoEl = u.logo
-    ? `<div class="logo-box"><img src="${u.logo}" alt="${u.name[0]}" onerror="this.parentElement.className='logo-box fallback';this.parentElement.style.background='${color}';this.parentElement.innerHTML='${u.name[0]}'"></div>`
+  const faviconUrl = u.website ? `https://www.google.com/s2/favicons?domain=${u.website}&sz=64` : null;
+  const logoEl = faviconUrl
+    ? `<div class="logo-box"><img src="${faviconUrl}" alt="${u.name[0]}" onerror="this.parentElement.className='logo-box fallback';this.parentElement.style.background='${color}';this.parentElement.innerHTML='${u.name[0]}'"></div>`
     : `<div class="logo-box fallback" style="background:${color}">${u.name[0]}</div>`;
 
   const tuitionChip = u.tuition === 0
