@@ -1,113 +1,47 @@
-const universities = [
+const API = 'https://univestree-backend.vercel.app/api/universities';
 
-  {
-    name: "Harvard University",
-    country: "United States",
-    ranking: "#4"
-  },
+const universitiesContainer = document.getElementById('universitiesContainer');
+const searchInput = document.getElementById('searchInput');
+const countryFilter = document.getElementById('countryFilter');
 
-  {
-    name: "Oxford University",
-    country: "United Kingdom",
-    ranking: "#3"
-  },
+async function fetchAndDisplay() {
+  const query = searchInput ? searchInput.value.trim() : '';
+  const country = countryFilter ? countryFilter.value : '';
 
-  {
-    name: "University of Toronto",
-    country: "Canada",
-    ranking: "#21"
-  },
+  let url = `${API}/search?`;
+  if (query) url += `query=${encodeURIComponent(query)}&`;
+  if (country) url += `country=${encodeURIComponent(country)}`;
 
-  {
-    name: "MIT",
-    country: "United States",
-    ranking: "#1"
-  },
-
-  {
-    name: "Cambridge University",
-    country: "United Kingdom",
-    ranking: "#5"
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    displayUniversities(Array.isArray(data) ? data : []);
+  } catch (e) {
+    console.error('Search failed:', e);
   }
-
-];
-
-const universitiesContainer =
-document.getElementById("universitiesContainer");
-
-const searchInput =
-document.getElementById("searchInput");
-
-const countryFilter =
-document.getElementById("countryFilter");
-
-function displayUniversities(data){
-
-  universitiesContainer.innerHTML = "";
-
-  data.forEach((university)=>{
-
-    universitiesContainer.innerHTML += `
-
-      <div class="card">
-
-        <h3>${university.name}</h3>
-
-        <p>${university.country}</p>
-
-        <p>QS Ranking: ${university.ranking}</p>
-
-        <button
-          onclick="window.location.href='university-details.html'">
-
-          View Details
-
-        </button>
-
-      </div>
-
-    `;
-
-  });
-
 }
 
-displayUniversities(universities);
-
-function filterUniversities(){
-
-  const searchValue =
-  searchInput.value.toLowerCase();
-
-  const countryValue =
-  countryFilter.value;
-
-  const filtered =
-  universities.filter((university)=>{
-
-    const matchesSearch =
-    university.name
-    .toLowerCase()
-    .includes(searchValue);
-
-    const matchesCountry =
-    countryValue === "" ||
-    university.country === countryValue;
-
-    return matchesSearch && matchesCountry;
-
-  });
-
-  displayUniversities(filtered);
-
+function displayUniversities(data) {
+  if (!universitiesContainer) return;
+  if (data.length === 0) {
+    universitiesContainer.innerHTML = '<p>No universities found.</p>';
+    return;
+  }
+  universitiesContainer.innerHTML = data.map(university => `
+    <div class="university-card">
+      <h3>${university.name}</h3>
+      <p>${university.city ? university.city + ', ' : ''}${university.country}</p>
+      <p>QS Ranking: #${university.ranking}</p>
+      <p>Acceptance Rate: ${university.acceptanceRate}%</p>
+      <button onclick="window.location.href='university-details.html'">
+        View Details
+      </button>
+    </div>
+  `).join('');
 }
 
-searchInput.addEventListener(
-  "input",
-  filterUniversities
-);
+// Load all on page start
+fetchAndDisplay();
 
-countryFilter.addEventListener(
-  "change",
-  filterUniversities
-);
+if (searchInput) searchInput.addEventListener('input', fetchAndDisplay);
+if (countryFilter) countryFilter.addEventListener('change', fetchAndDisplay);
