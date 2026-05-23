@@ -803,6 +803,8 @@
     function setLevel(el) {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
+  const level = el.dataset.level || '';
+  window.location.href = 'universities.html?level=' + encodeURIComponent(level);
 }
 function doHeroSearch() {
   const q = document.getElementById('searchInput').value;
