@@ -88,7 +88,7 @@
   }
   .hero-tag {
     display: inline-flex; align-items: center; gap: 8px;
-    background: #EFF6FF; color: var(--primary);
+    background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&auto=format&fit=crop") center/cover no-repeat; color: #fff;
     font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px;
     padding: 6px 14px; border-radius: 50px;
     border: 1px solid #BFDBFE;
@@ -96,7 +96,7 @@
   }
   .hero-tag .dot { width: 7px; height: 7px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .hero h1 {
+  .hero h1 { color: #fff !important;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
     font-weight: 800; line-height: 1.12;
     letter-spacing: -1.5px; color: var(--text);
@@ -108,7 +108,7 @@
     background: linear-gradient(135deg, #2563EB, #8B5CF6);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .hero p {
+  .hero p { color: rgba(255,255,255,0.85) !important;
     font-size: 1.05rem; color: var(--muted);
     line-height: 1.7; max-width: 480px; margin-bottom: 2rem;
   }
@@ -187,7 +187,7 @@
     font-weight: 600; cursor: pointer; transition: all 0.2s;
     border: 1.5px solid transparent;
   }
-  .chip.active { background: #EFF6FF; color: var(--primary); border-color: #BFDBFE; }
+  .chip.active { background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&auto=format&fit=crop") center/cover no-repeat; color: #fff; border-color: #BFDBFE; }
   .chip:not(.active) { background: #F3F4F6; color: var(--muted); border-color: transparent; }
   .chip:hover { border-color: var(--primary); color: var(--primary); }
 
@@ -314,7 +314,7 @@
   .tag {
     font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 50px;
   }
-  .tag-blue { background: #EFF6FF; color: var(--primary); }
+  .tag-blue { background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&auto=format&fit=crop") center/cover no-repeat; color: #fff; }
   .tag-green { background: #ECFDF5; color: var(--accent2); }
   .tag-amber { background: #FFFBEB; color: #D97706; }
   .tag-purple { background: #F5F3FF; color: var(--accent3); }
