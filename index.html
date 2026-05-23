@@ -861,7 +861,7 @@ async function joinWaitlist() {
       <div class="search-row">
         <input type="text" id="searchInput" placeholder="Search university, course, country..." onkeydown="if(event.key==='Enter')document.querySelector('.search-btn').click()">
         
-        <button class="search-btn" onclick="const q=document.getElementById(\'searchInput\').value; const c=document.getElementById(\'countryFilter\').value; window.location.href=\'universities.html?query=\'+encodeURIComponent(q)+\'&country=\'+encodeURIComponent(c)">🔍</button>
+        <button class="search-btn" onclick="doHeroSearch()">🔍</button>
       </div>
       <div class="filter-chips">
         <span class="chip active" data-level="UG" onclick="setLevel(this)">🎓 UG Programs</span>
