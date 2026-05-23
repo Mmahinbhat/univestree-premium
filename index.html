@@ -839,10 +839,10 @@
 
     <div class="hero-card">
       <div class="search-tabs">
-        <button class="s-tab active">Universities</button>
-        <button class="s-tab">Courses</button>
-        <button class="s-tab">Scholarships</button>
-        <button class="s-tab">Counsellors</button>
+        <button class="s-tab active" onclick="window.location.href='universities.html'">Universities</button>
+        <button class="s-tab" onclick="window.location.href='universities.html?query=courses'">Courses</button>
+        <button class="s-tab" onclick="window.location.href='universities.html?query=scholarships'">Scholarships</button>
+        <button class="s-tab" onclick="window.location.href='universities.html?query=counsellors'">Counsellors</button>
       </div>
       <div class="card-title">Where do you want to study?</div>
       <div class="search-row">
@@ -858,15 +858,15 @@
         <button class="search-btn" onclick="const q=document.getElementById(\'searchInput\').value; const c=document.getElementById(\'countryFilter\').value; window.location.href=\'universities.html?query=\'+encodeURIComponent(q)+\'&country=\'+encodeURIComponent(c)">🔍</button>
       </div>
       <div class="filter-chips">
-        <span class="chip active">🎓 UG Programs</span>
-        <span class="chip">📚 Masters</span>
-        <span class="chip">🔬 PhD</span>
-        <span class="chip">💰 Scholarships</span>
-        <span class="chip">🌐 Online</span>
+        <span class="chip active" onclick="document.getElementById('searchInput').value='UG Programs';document.querySelector('.search-btn').click()">🎓 UG Programs</span>
+        <span class="chip" onclick="document.getElementById('searchInput').value='Masters';document.querySelector('.search-btn').click()">📚 Masters</span>
+        <span class="chip" onclick="document.getElementById('searchInput').value='PhD';document.querySelector('.search-btn').click()">🔬 PhD</span>
+        <span class="chip" onclick="document.getElementById('searchInput').value='Scholarships';document.querySelector('.search-btn').click()">💰 Scholarships</span>
+        <span class="chip" onclick="document.getElementById('searchInput').value='Online';document.querySelector('.search-btn').click()">🌐 Online</span>
       </div>
       <div style="font-size:0.78rem; color:var(--muted); font-weight:600; margin-bottom:0.6rem;">⚡ Popular right now</div>
       <div class="mini-unis">
-        <div class="mini-uni-card">
+        <div class="mini-uni-card" onclick="window.location.href='universities.html?query=MIT'" style="cursor:pointer">
           <div class="uni-logo-sm" style="background:linear-gradient(135deg,#1D4ED8,#3B82F6)">M</div>
           <div class="uni-info">
             <div class="uni-name-sm">MIT</div>
@@ -874,7 +874,7 @@
           </div>
           <div class="uni-match tag tag-green">98% match</div>
         </div>
-        <div class="mini-uni-card">
+        <div class="mini-uni-card" onclick="window.location.href='universities.html?query=Oxford'" style="cursor:pointer">
           <div class="uni-logo-sm" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">O</div>
           <div class="uni-info">
             <div class="uni-name-sm">University of Oxford</div>
@@ -882,7 +882,7 @@
           </div>
           <div class="uni-match tag tag-blue">95% match</div>
         </div>
-        <div class="mini-uni-card">
+        <div class="mini-uni-card" onclick="window.location.href='universities.html?query=Toronto'" style="cursor:pointer">
           <div class="uni-logo-sm" style="background:linear-gradient(135deg,#059669,#34D399)">T</div>
           <div class="uni-info">
             <div class="uni-name-sm">University of Toronto</div>
