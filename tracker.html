@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Application Tracker — Uinvestree</title>
+  <style>
+    :root { --primary: #4f46e5; --primary-dark: #3730a3; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f4f6fb; min-height: 100vh; }
+
+    /* NAV */
+    nav { background: #fff; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 8px rgba(0,0,0,0.07); }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-user { font-size: 0.85rem; color: #555; }
+    .btn-logout { padding: 7px 16px; background: transparent; border: 1.5px solid #dde1ea; border-radius: 7px; cursor: pointer; font-size: 0.85rem; color: #555; }
+    .btn-logout:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* HEADER */
+    .page-header { padding: 32px 32px 0; display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; }
+    .page-header h1 { font-size: 1.5rem; color: #1a1a2e; }
+    .btn-add { padding: 10px 20px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+    .btn-add:hover { background: var(--primary-dark); }
+
+    /* KANBAN */
+    .kanban { display: flex; gap: 16px; padding: 24px 32px; overflow-x: auto; max-width: 1400px; margin: 0 auto; }
+    .column { background: #eef0f7; border-radius: 12px; min-width: 220px; flex: 1; padding: 16px; }
+    .col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .col-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .col-count { background: #fff; border-radius: 12px; padding: 2px 8px; font-size: 0.75rem; font-weight: 600; color: #555; }
+    .col-researching .col-title { color: #6366f1; }
+    .col-applied .col-title { color: #f59e0b; }
+    .col-interview .col-title { color: #3b82f6; }
+    .col-accepted .col-title { color: #10b981; }
+    .col-rejected .col-title { color: #ef4444; }
+    .cards { min-height: 80px; display: flex; flex-direction: column; gap: 10px; }
+    .cards.drag-over { background: rgba(79,70,229,0.07); border-radius: 8px; }
+
+    /* CARD */
+    .card { background: #fff; border-radius: 10px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: grab; transition: box-shadow 0.2s; }
+    .card:active { cursor: grabbing; }
+    .card.dragging { opacity: 0.4; }
+    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .card-logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; background: #f4f6fb; }
+    .card-name { font-size: 0.9rem; font-weight: 600; color: #1a1a2e; flex: 1; }
+    .card-country { font-size: 0.75rem; color: #888; margin-bottom: 6px; }
+    .card-deadline { font-size: 0.75rem; color: #f59e0b; margin-bottom: 6px; }
+    .card-notes { font-size: 0.75rem; color: #666; margin-bottom: 10px; line-height: 1.4; }
+    .card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .btn-status { font-size: 0.7rem; padding: 4px 8px; border: none; border-radius: 5px; cursor: pointer; background: #eef0f7; color: #555; }
+    .btn-status:hover { background: var(--primary); color: #fff; }
+    .btn-delete { font-size: 0.7rem; padding: 4px 8px; border: none; border-radius: 5px; cursor: pointer; background: #fee2e2; color: #ef4444; margin-left: auto; }
+    .btn-delete:hover { background: #ef4444; color: #fff; }
+
+    /* MODAL */
+    .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; }
+    .modal-bg.open { display: flex; }
+    .modal { background: #fff; border-radius: 16px; padding: 32px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+    .modal h2 { font-size: 1.2rem; margin-bottom: 20px; color: #1a1a2e; }
+    .modal label { font-size: 0.85rem; font-weight: 600; color: #444; display: block; margin-bottom: 5px; margin-top: 14px; }
+    .modal input, .modal textarea, .modal select {
+      width: 100%; padding: 10px 12px; border: 1.5px solid #dde1ea; border-radius: 8px;
+      font-size: 0.9rem; outline: none; font-family: inherit;
+    }
+    .modal input:focus, .modal textarea:focus, .modal select:focus { border-color: var(--primary); }
+    .search-results { border: 1.5px solid #dde1ea; border-top: none; border-radius: 0 0 8px 8px; max-height: 180px; overflow-y: auto; display: none; }
+    .search-result-item { padding: 9px 12px; cursor: pointer; font-size: 0.88rem; display: flex; align-items: center; gap: 8px; }
+    .search-result-item:hover { background: #f4f6fb; }
+    .search-result-item img { width: 20px; height: 20px; border-radius: 4px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+    .btn-save { flex: 1; padding: 11px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn-save:hover { background: var(--primary-dark); }
+    .btn-cancel { padding: 11px 20px; background: #eef0f7; border: none; border-radius: 8px; cursor: pointer; color: #555; }
+
+    /* EMPTY */
+    .empty { text-align: center; padding: 48px 32px; color: #aaa; font-size: 0.9rem; }
+
+    /* AUTH GATE */
+    #authGate { display: none; position: fixed; inset: 0; background: #f4f6fb; z-index: 200; align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
+    #authGate.open { display: flex; }
+    #authGate p { color: #555; }
+    #authGate a { color: var(--primary); font-weight: 600; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- Auth Gate -->
+<div id="authGate" class="open">
+  <p>Please <a href="/login.html">log in</a> to access your tracker.</p>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a href="/" class="nav-logo">🌳 Uinvestree</a>
+  <div class="nav-right">
+    <span class="nav-user" id="navUser"></span>
+    <button class="btn-logout" onclick="logout()">Log out</button>
+  </div>
+</nav>
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1>📋 My Application Tracker</h1>
+  <button class="btn-add" onclick="openModal()">+ Add University</button>
+</div>
+
+<!-- Kanban Board -->
+<div class="kanban" id="kanban">
+  <div class="column col-researching" data-status="Researching">
+    <div class="col-header"><span class="col-title">Researching</span><span class="col-count" id="count-Researching">0</span></div>
+    <div class="cards" id="col-Researching" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'Researching')"></div>
+  </div>
+  <div class="column col-applied" data-status="Applied">
+    <div class="col-header"><span class="col-title">Applied</span><span class="col-count" id="count-Applied">0</span></div>
+    <div class="cards" id="col-Applied" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'Applied')"></div>
+  </div>
+  <div class="column col-interview" data-status="Interview">
+    <div class="col-header"><span class="col-title">Interview</span><span class="col-count" id="count-Interview">0</span></div>
+    <div class="cards" id="col-Interview" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'Interview')"></div>
+  </div>
+  <div class="column col-accepted" data-status="Accepted">
+    <div class="col-header"><span class="col-title">Accepted</span><span class="col-count" id="count-Accepted">0</span></div>
+    <div class="cards" id="col-Accepted" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'Accepted')"></div>
+  </div>
+  <div class="column col-rejected" data-status="Rejected">
+    <div class="col-header"><span class="col-title">Rejected</span><span class="col-count" id="count-Rejected">0</span></div>
+    <div class="cards" id="col-Rejected" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'Rejected')"></div>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>Add University</h2>
+    <label>Search University</label>
+    <input type="text" id="uniSearch" placeholder="Type university name..." oninput="searchUnis()" autocomplete="off"/>
+    <div class="search-results" id="searchResults"></div>
+    <input type="hidden" id="selectedUniId"/>
+    <input type="hidden" id="selectedUniName"/>
+    <input type="hidden" id="selectedUniLogo"/>
+    <input type="hidden" id="selectedUniCountry"/>
+    <label>Deadline (optional)</label>
+    <input type="date" id="appDeadline"/>
+    <label>Notes (optional)</label>
+    <textarea id="appNotes" rows="3" placeholder="Scholarship info, requirements..."></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="addApplication()">Add to Tracker</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDcip3y4gAC85mrs0T0ky9k4gy3f2PWBcI",
+    authDomain: "univestree.firebaseapp.com",
+    projectId: "univestree",
+    storageBucket: "univestree.firebasestorage.app",
+    messagingSenderId: "139818048792",
+    appId: "1:139818048792:web:c9e273e0a15597d87b126d"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const API = 'https://univestree-backend.vercel.app';
+
+  let currentUid = null;
+  let allApps = [];
+  let allUnis = [];
+  let dragId = null;
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      document.getElementById('authGate').classList.add('open');
+      return;
+    }
+    document.getElementById('authGate').classList.remove('open');
+    currentUid = user.uid;
+    document.getElementById('navUser').textContent = user.displayName || user.email;
+    await loadUnis();
+    await loadApps();
+  });
+
+  window.logout = async () => {
+    await signOut(auth);
+    window.location.href = '/';
+  };
+
+  async function loadUnis() {
+    const res = await fetch(`${API}/api/universities/search?query=`);
+    allUnis = await res.json();
+  }
+
+  async function loadApps() {
+    const res = await fetch(`${API}/api/tracker/${currentUid}`);
+    allApps = await res.json();
+    renderBoard();
+  }
+
+  function renderBoard() {
+    const statuses = ['Researching','Applied','Interview','Accepted','Rejected'];
+    statuses.forEach(s => {
+      document.getElementById(`col-${s}`).innerHTML = '';
+      const cards = allApps.filter(a => a.status === s);
+      document.getElementById(`count-${s}`).textContent = cards.length;
+      cards.forEach(app => {
+        document.getElementById(`col-${s}`).appendChild(makeCard(app));
+      });
+    });
+  }
+
+  function makeCard(app) {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.draggable = true;
+    div.dataset.id = app.id;
+    div.addEventListener('dragstart', e => { dragId = app.id; div.classList.add('dragging'); });
+    div.addEventListener('dragend', () => div.classList.remove('dragging'));
+
+    const statuses = ['Researching','Applied','Interview','Accepted','Rejected'];
+    const next = statuses[statuses.indexOf(app.status) + 1];
+
+    div.innerHTML = `
+      <div class="card-top">
+        <img class="card-logo" src="${app.logo || `https://www.google.com/s2/favicons?domain=${app.universityName}.edu&sz=64`}" onerror="this.src='https://via.placeholder.com/32'" />
+        <span class="card-name">${app.universityName}</span>
+      </div>
+      ${app.country ? `<div class="card-country">🌍 ${app.country}</div>` : ''}
+      ${app.deadline ? `<div class="card-deadline">⏰ Deadline: ${app.deadline}</div>` : ''}
+      ${app.notes ? `<div class="card-notes">${app.notes}</div>` : ''}
+      <div class="card-actions">
+        ${next ? `<button class="btn-status" onclick="moveCard('${app.id}','${next}')">→ ${next}</button>` : ''}
+        <button class="btn-delete" onclick="deleteCard('${app.id}')">✕</button>
+      </div>`;
+    return div;
+  }
+
+  window.moveCard = async (id, newStatus) => {
+    await fetch(`${API}/api/tracker/${currentUid}/${id}`, {
+      method: 'PATCH', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ status: newStatus })
+    });
+    allApps = allApps.map(a => a.id === id ? {...a, status: newStatus} : a);
+    renderBoard();
+  };
+
+  window.deleteCard = async (id) => {
+    if (!confirm('Remove this university from your tracker?')) return;
+    await fetch(`${API}/api/tracker/${currentUid}/${id}`, { method: 'DELETE' });
+    allApps = allApps.filter(a => a.id !== id);
+    renderBoard();
+  };
+
+  // Drag & Drop
+  window.onDragOver = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); };
+  window.onDragLeave = (e) => { e.currentTarget.classList.remove('drag-over'); };
+  window.onDrop = async (e, status) => {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    if (dragId) await window.moveCard(dragId, status);
+    dragId = null;
+  };
+
+  // Modal
+  window.openModal = () => {
+    document.getElementById('modalBg').classList.add('open');
+    document.getElementById('uniSearch').value = '';
+    document.getElementById('searchResults').style.display = 'none';
+    document.getElementById('selectedUniId').value = '';
+    document.getElementById('selectedUniName').value = '';
+    document.getElementById('appDeadline').value = '';
+    document.getElementById('appNotes').value = '';
+  };
+  window.closeModal = () => document.getElementById('modalBg').classList.remove('open');
+
+  window.searchUnis = () => {
+    const q = document.getElementById('uniSearch').value.toLowerCase();
+    const box = document.getElementById('searchResults');
+    if (!q) { box.style.display = 'none'; return; }
+    const matches = allUnis.filter(u => u.name.toLowerCase().includes(q)).slice(0, 8);
+    if (!matches.length) { box.style.display = 'none'; return; }
+    box.style.display = 'block';
+    box.innerHTML = matches.map(u => `
+      <div class="search-result-item" onclick="selectUni('${u.id}','${u.name.replace(/'/g,"\\'")}','${u.logo||''}','${u.country||''}')">
+        <img src="${u.logo || `https://www.google.com/s2/favicons?domain=${u.name}.edu&sz=32`}" onerror="this.src=''" width="20" height="20"/>
+        ${u.name} <span style="color:#aaa;font-size:0.75rem;margin-left:auto">${u.country||''}</span>
+      </div>`).join('');
+  };
+
+  window.selectUni = (id, name, logo, country) => {
+    document.getElementById('uniSearch').value = name;
+    document.getElementById('selectedUniId').value = id;
+    document.getElementById('selectedUniName').value = name;
+    document.getElementById('selectedUniLogo').value = logo;
+    document.getElementById('selectedUniCountry').value = country;
+    document.getElementById('searchResults').style.display = 'none';
+  };
+
+  window.addApplication = async () => {
+    const name = document.getElementById('selectedUniName').value || document.getElementById('uniSearch').value;
+    if (!name) { alert('Please select a university.'); return; }
+    const body = {
+      universityId: document.getElementById('selectedUniId').value,
+      universityName: name,
+      logo: document.getElementById('selectedUniLogo').value,
+      country: document.getElementById('selectedUniCountry').value,
+      deadline: document.getElementById('appDeadline').value,
+      notes: document.getElementById('appNotes').value
+    };
+    const res = await fetch(`${API}/api/tracker/${currentUid}`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (res.ok) {
+      allApps.push({ id: data.id, ...body, status: 'Researching' });
+      renderBoard();
+      closeModal();
+    } else {
+      alert(data.error || 'Something went wrong.');
+    }
+  };
+</script>
+</body>
+</html>
