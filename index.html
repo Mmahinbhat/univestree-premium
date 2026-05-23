@@ -806,12 +806,10 @@
 }
 function doHeroSearch() {
   const q = document.getElementById('searchInput').value;
-  const c = document.getElementById('countryFilter') ? document.getElementById('countryFilter').value : '';
   const activeChip = document.querySelector('.chip.active');
   const level = activeChip ? activeChip.dataset.level || '' : '';
   let url = 'universities.html?';
   if (q) url += 'query=' + encodeURIComponent(q) + '&';
-  if (c) url += 'country=' + encodeURIComponent(c) + '&';
   if (level) url += 'level=' + encodeURIComponent(level);
   window.location.href = url;
 }
@@ -862,14 +860,7 @@ async function joinWaitlist() {
       <div class="card-title">Where do you want to study?</div>
       <div class="search-row">
         <input type="text" id="searchInput" placeholder="Search university, course, country..." onkeydown="if(event.key==='Enter')document.querySelector('.search-btn').click()">
-        <select id="countryFilter">
-          <option>All Countries</option>
-          <option>🇺🇸 USA</option>
-          <option>🇬🇧 UK</option>
-          <option>🇨🇦 Canada</option>
-          <option>🇦🇺 Australia</option>
-          <option>🇩🇪 Germany</option>
-        </select>
+        
         <button class="search-btn" onclick="const q=document.getElementById(\'searchInput\').value; const c=document.getElementById(\'countryFilter\').value; window.location.href=\'universities.html?query=\'+encodeURIComponent(q)+\'&country=\'+encodeURIComponent(c)">🔍</button>
       </div>
       <div class="filter-chips">
