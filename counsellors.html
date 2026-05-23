@@ -3,40 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Counsellors — Univestree</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Expert Counsellors · Univestree</title>
 <style>
-:root{--primary:#2563EB;--primary-dark:#1D4ED8;--bg:#F8F7F4;--card:#FFFFFF;--text:#111827;--muted:#6B7280;--border:#E5E7EB;--radius:18px;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,247,244,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between;}
-.logo{font-size:1.45rem;font-weight:800;background:linear-gradient(135deg,var(--primary),#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;}
-.nav-back{font-size:0.9rem;color:var(--muted);cursor:pointer;font-weight:600;}
-.page{padding:100px 5% 60px;}
-.page-header{text-align:center;margin-bottom:3rem;}
-.page-header h1{font-size:2.5rem;font-weight:800;margin-bottom:0.75rem;}
-.page-header p{color:var(--muted);max-width:500px;margin:auto;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
-.card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:2rem;text-align:center;transition:box-shadow .2s;}
-.card:hover{box-shadow:0 8px 32px rgba(37,99,235,0.12);}
-.avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:#fff;}
-.card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.25rem;}
-.card .role{font-size:0.85rem;color:var(--primary);font-weight:600;margin-bottom:0.5rem;}
-.card .spec{font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;}
-.stars{color:#F59E0B;font-size:0.9rem;margin-bottom:0.25rem;}
-.reviews{font-size:0.78rem;color:var(--muted);margin-bottom:1rem;}
-.tags{display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.25rem;}
-.tag{padding:0.2rem 0.65rem;border-radius:50px;font-size:0.72rem;font-weight:600;background:#EFF6FF;color:#2563EB;}
-.book-btn{width:100%;padding:0.7rem;background:var(--primary);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.9rem;}
-.book-btn:hover{background:var(--primary-dark);}
-.sessions{font-size:0.78rem;color:var(--muted);margin-top:0.5rem;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--primary:#2563EB;--primary-dark:#1D4ED8;--muted:#6B7280;--bg:#F8FAFC;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:#111;}
+  nav{background:#fff;border-bottom:1px solid #E5E7EB;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+  .logo{font-size:1.3rem;font-weight:800;color:var(--primary);cursor:pointer;}
+  .nav-back{font-size:0.9rem;color:var(--muted);cursor:pointer;text-decoration:none;}
+  .nav-back:hover{color:var(--primary);}
+  .page{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
+  .page-header{text-align:center;margin-bottom:2.5rem;}
+  .page-header h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
+  .page-header p{color:var(--muted);font-size:1rem;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;}
+  .card{background:#fff;border-radius:16px;padding:1.75rem 1.5rem;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.07);transition:transform 0.2s,box-shadow 0.2s;}
+  .card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.12);}
+  .avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:#fff;}
+  .card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.25rem;}
+  .card .role{font-size:0.85rem;color:var(--primary);font-weight:600;margin-bottom:0.5rem;}
+  .card .spec{font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;}
+  .stars{color:#F59E0B;font-size:0.9rem;margin-bottom:0.25rem;}
+  .reviews{font-size:0.78rem;color:var(--muted);margin-bottom:1rem;}
+  .tags{display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.25rem;}
+  .tag{padding:0.2rem 0.65rem;border-radius:50px;font-size:0.72rem;font-weight:600;background:#EFF6FF;color:#2563EB;}
+  .book-btn{width:100%;padding:0.7rem;background:var(--primary);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.9rem;}
+  .book-btn:hover{background:var(--primary-dark);}
+  .sessions{font-size:0.78rem;color:var(--muted);margin-top:0.5rem;}
 </style>
 </head>
 <body>
 <nav>
   <div class="logo" onclick="window.location.href='index.html'">Univestree</div>
-  <div class="nav-back" onclick="window.location.href='index.html'">← Back to Home</div>
+  <a class="nav-back" href="index.html">← Back to Home</a>
 </nav>
 <div class="page">
   <div class="page-header">
@@ -44,28 +43,103 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,247,244,
     <p>Get guidance from counsellors who've been accepted to the world's top universities</p>
   </div>
   <div class="grid">
-    ${[
-      {name:"Aisha Rahman",role:"Oxford Alumna",spec:"UK Universities · Humanities & Law",avatar:"A",color:"linear-gradient(135deg,#7C3AED,#A78BFA)",tags:["Oxford","Cambridge","Law","Humanities"],rating:"4.9",reviews:"127",sessions:"500+"},
-      {name:"James Chen",role:"MIT Graduate",spec:"US Universities · STEM & Engineering",avatar:"J",color:"linear-gradient(135deg,#1D4ED8,#3B82F6)",tags:["MIT","Stanford","Engineering","CS"],rating:"4.8",reviews:"98",sessions:"350+"},
-      {name:"Priya Sharma",role:"Harvard MBA",spec:"Business Schools · MBA Programs",avatar:"P",color:"linear-gradient(135deg,#059669,#34D399)",tags:["Harvard","Wharton","MBA","Finance"],rating:"5.0",reviews:"203",sessions:"800+"},
-      {name:"Lucas Müller",role:"ETH Zurich PhD",spec:"European Universities · Research",avatar:"L",color:"linear-gradient(135deg,#DC2626,#F87171)",tags:["ETH","TU Munich","PhD","Research"],rating:"4.7",reviews:"74",sessions:"200+"},
-      {name:"Fatima Al-Hassan",role:"LSE Graduate",spec:"Economics & Social Sciences",avatar:"F",color:"linear-gradient(135deg,#D97706,#FCD34D)",tags:["LSE","UCL","Economics","Politics"],rating:"4.9",reviews:"156",sessions:"450+"},
-      {name:"Ravi Patel",role:"IIT + Stanford",spec:"India to USA · Engineering",avatar:"R",color:"linear-gradient(135deg,#0891B2,#67E8F9)",tags:["IIT","Stanford","GRE","Visa"],rating:"4.8",reviews:"89",sessions:"300+"},
-      {name:"Sophie Dubois",role:"Sorbonne & Sciences Po",spec:"French Universities · Arts",avatar:"S",color:"linear-gradient(135deg,#BE185D,#F472B6)",tags:["France","Scholarships","Arts","Languages"],rating:"4.6",reviews:"61",sessions:"150+"},
-      {name:"Omar Khalid",role:"NUS & Cambridge",spec:"Asia-Pacific · Business & Tech",avatar:"O",color:"linear-gradient(135deg,#065F46,#34D399)",tags:["NUS","Singapore","Asia","Business"],rating:"4.9",reviews:"112",sessions:"400+"},
-    ].map(c => `
+
     <div class="card">
-      <div class="avatar" style="background:${c.color}">${c.avatar}</div>
-      <h3>${c.name}</h3>
-      <div class="role">${c.role}</div>
-      <div class="spec">${c.spec}</div>
-      <div class="stars">${'★'.repeat(Math.floor(c.rating))}${c.rating%1?'½':''}</div>
-      <div class="reviews">${c.rating} · ${c.reviews} reviews</div>
-      <div class="tags">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div class="avatar" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">A</div>
+      <h3>Aisha Rahman</h3>
+      <div class="role">Oxford Alumna</div>
+      <div class="spec">UK Universities · Humanities &amp; Law</div>
+      <div class="stars">★★★★★</div>
+      <div class="reviews">4.9 · 127 reviews</div>
+      <div class="tags"><span class="tag">Oxford</span><span class="tag">Cambridge</span><span class="tag">Law</span><span class="tag">Humanities</span></div>
       <button class="book-btn">Book a Session</button>
-      <div class="sessions">${c.sessions} sessions completed</div>
+      <div class="sessions">500+ sessions completed</div>
     </div>
-    `).join('')}
+
+    <div class="card">
+      <div class="avatar" style="background:linear-gradient(135deg,#1D4ED8,#3B82F6)">J</div>
+      <h3>James Chen</h3>
+      <div class="role">MIT Graduate</div>
+      <div class="spec">US Universities · STEM &amp; Engineering</div>
+      <div class="stars">★★★★★</div>
+      <div class="reviews">4.8 · 98 reviews</div>
+      <div class="tags"><span class="tag">MIT</span><span class="tag">Stanford</span><span class="tag">Engineering</span><span class="tag">CS</span></div>
+      <button class="book-btn">Book a Session</button>
+      <div class="sessions">350+ sessions completed</div>
+    </div>
+
+    <div class="card">
+      <div class="avatar" style="background:linear-gradient(135deg,#059669,#34D399)">P</div>
+      <h3>Priya Sharma</h3>
+      <div class="role">Harvard MBA</div>
+      <div class="spec">Business Schools · MBA Programs</div>
+      <div class="stars">★★★★★</div>
+      <div class="reviews">5.0 · 203 reviews</div>
+      <div class="tags"><span class="tag">Harvard</span><span class="tag">Wharton</span><span class="tag">MBA</span><span class="tag">Finance</span></div>
+      <button class="book-btn">Book a Session</button>
+      <div class="sessions">800+ sessions completed</div>
+    </div>
+
+    <div class="card">
+      <div class="avatar" style="background:linear-gradient(135deg,#DC2626,#F87171)">L</div>
+      <h3>Lucas Müller</h3>
+      <div class="role">ETH Zurich PhD</div>
+      <div class="spec">European Universities · Research</div>
+      <div class="stars">★★★★½</div>
+      <div class="reviews">4.7 · 74 reviews</div>
+      <div class="tags"><span class="tag">ETH</span><span class="tag">TU Munich</span><span class="tag">PhD</span><span class="tag">Research</span></div>
+      <button class="book-btn">Book a Session</button>
+      <div class="sessions">200+ sessions completed</div>
+    </div>
+
+    <div class="card">
+      <div class="avatar" style="background:linear-gradient(135deg,#D97706,#FCD34D)">F</div>
+      <h3>Fatima Al-Hassan</h3>
+      <div class="role">LSE Graduate</div>
+      <div class="spec">Economics &amp; Social Sciences</div>
+      <div class="stars">★★★★★</div>
+      <div class="reviews">4.9 · 156 reviews</div>
+      <div class="tags"><span class="tag">LSE</span><span class="tag">UCL</span><span class="tag">Economics</span><span class="tag">Politics</span></div>
+      <button class="book-btn">Book a Session</button>
+      <div class="sessions">450+ sessions completed</div>
+    </div>
+
+    <div class="card">
+      <div class="avatar" style="background:linear-gradient(135deg,#0891B2,#67E8F9)">R</div>
+      <h3>Ravi Patel</h3>
+      <div class="role">IIT + Stanford</div>
+      <div class="spec">India to USA · Engineering</div>
+      <div class="stars">★★★★★</div>
+      <div class="reviews">4.8 · 89 reviews</div>
+      <div class="tags"><span class="tag">IIT</span><span class="tag">Stanford</span><span class="tag">GRE</span><span class="tag">Visa</span></div>
+      <button class="book-btn">Book a Session</button>
+      <div class="sessions">300+ sessions completed</div>
+    </div>
+
+    <div class="card">
+      <div class="avatar" style="background:linear-gradient(135deg,#BE185D,#F472B6)">S</div>
+      <h3>Sophie Dubois</h3>
+      <div class="role">Sorbonne &amp; Sciences Po</div>
+      <div class="spec">French Universities · Arts</div>
+      <div class="stars">★★★★½</div>
+      <div class="reviews">4.6 · 61 reviews</div>
+      <div class="tags"><span class="tag">France</span><span class="tag">Scholarships</span><span class="tag">Arts</span><span class="tag">Languages</span></div>
+      <button class="book-btn">Book a Session</button>
+      <div class="sessions">150+ sessions completed</div>
+    </div>
+
+    <div class="card">
+      <div class="avatar" style="background:linear-gradient(135deg,#065F46,#34D399)">O</div>
+      <h3>Omar Khalid</h3>
+      <div class="role">NUS &amp; Cambridge</div>
+      <div class="spec">Asia-Pacific · Business &amp; Tech</div>
+      <div class="stars">★★★★★</div>
+      <div class="reviews">4.9 · 112 reviews</div>
+      <div class="tags"><span class="tag">NUS</span><span class="tag">Singapore</span><span class="tag">Asia</span><span class="tag">Business</span></div>
+      <button class="book-btn">Book a Session</button>
+      <div class="sessions">400+ sessions completed</div>
+    </div>
+
   </div>
 </div>
 </body>
