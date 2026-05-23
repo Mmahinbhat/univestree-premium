@@ -188,29 +188,46 @@ function cardHTML(u, i) {
 
 async function fetchAndDisplay() {
   const query = document.getElementById('searchInput').value.trim();
-  const country = document.getElementById('countryFilter').value;
+  const country = document.getElementById('countryFilter') ? document.getElementById('countryFilter').value : '';
   const container = document.getElementById('universitiesContainer');
   const countEl = document.getElementById('resultsCount');
-  container.innerHTML = '<div class="loading">⏳ Searching...</div>';
-  let url = `${API}/search?`;
-  if (query) url += `query=${encodeURIComponent(query)}&`;
-  if (country) url += `country=${encodeURIComponent(country)}&`;
   const activeChip = document.querySelector('.filter-chip.active');
   const level = activeChip ? activeChip.dataset.level || activeChip.textContent.trim() : '';
-  if (level && level !== 'All') url += `level=${encodeURIComponent(level)}`;
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const unis = Array.isArray(data) ? data : [];
-    countEl.textContent = `${unis.length} universit${unis.length === 1 ? 'y' : 'ies'} found`;
-    if (!unis.length) {
-      container.innerHTML = '<div class="no-results"><h3>No universities found</h3><p>Try a different search or country</p></div>';
+
+  // Load from cache or fetch all once
+  let allUnis = null;
+  try { allUnis = JSON.parse(sessionStorage.getItem('unis_cache')); } catch(e) {}
+  if (!allUnis) {
+    container.innerHTML = '<div class="loading">⏳ Loading...</div>';
+    try {
+      const res = await fetch(`${API}/search?`);
+      allUnis = await res.json();
+      sessionStorage.setItem('unis_cache', JSON.stringify(allUnis));
+    } catch(e) {
+      container.innerHTML = '<div class="no-results"><h3>Something went wrong</h3><p>Please try again</p></div>';
       return;
     }
-    container.innerHTML = unis.map(cardHTML).join('');
-  } catch(e) {
-    container.innerHTML = '<div class="no-results"><h3>Something went wrong</h3><p>Please try again</p></div>';
   }
+
+  // Filter locally — instant
+  let unis = allUnis;
+  if (query) unis = unis.filter(u =>
+    u.name.toLowerCase().includes(query.toLowerCase()) ||
+    u.country.toLowerCase().includes(query.toLowerCase()) ||
+    (u.city && u.city.toLowerCase().includes(query.toLowerCase())) ||
+    (u.programs && u.programs.some(p => p.toLowerCase().includes(query.toLowerCase())))
+  );
+  if (country) unis = unis.filter(u => u.country.toLowerCase() === country.toLowerCase());
+  if (level && level !== 'All') unis = unis.filter(u =>
+    u.programs && u.programs.some(p => p.toLowerCase().includes(level.toLowerCase()))
+  );
+
+  countEl.textContent = `${unis.length} universit${unis.length === 1 ? 'y' : 'ies'} found`;
+  if (!unis.length) {
+    container.innerHTML = '<div class="no-results"><h3>No universities found</h3><p>Try a different search or country</p></div>';
+    return;
+  }
+  container.innerHTML = unis.map(cardHTML).join('');
 }
 
 document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') fetchAndDisplay(); });
