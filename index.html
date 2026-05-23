@@ -1705,7 +1705,7 @@
   });
 
   // CTA email
-  document.querySelector('.cta-section .btn-big').addEventListener('click', () => {
+  document.querySelector('.cta-section .btn-big').addEventListener('click', async () => {
     const input = document.querySelector('.email-input');
     if (input.value.includes('@')) {
       input.style.borderColor = '#10B981';
