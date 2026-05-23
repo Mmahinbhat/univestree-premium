@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counsellors — Univestree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#2563EB;--primary-dark:#1D4ED8;--bg:#F8F7F4;--card:#FFFFFF;--text:#111827;--muted:#6B7280;--border:#E5E7EB;--radius:18px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,247,244,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-size:1.45rem;font-weight:800;background:linear-gradient(135deg,var(--primary),#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;}
+.nav-back{font-size:0.9rem;color:var(--muted);cursor:pointer;font-weight:600;}
+.page{padding:100px 5% 60px;}
+.page-header{text-align:center;margin-bottom:3rem;}
+.page-header h1{font-size:2.5rem;font-weight:800;margin-bottom:0.75rem;}
+.page-header p{color:var(--muted);max-width:500px;margin:auto;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
+.card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:2rem;text-align:center;transition:box-shadow .2s;}
+.card:hover{box-shadow:0 8px 32px rgba(37,99,235,0.12);}
+.avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:#fff;}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.25rem;}
+.card .role{font-size:0.85rem;color:var(--primary);font-weight:600;margin-bottom:0.5rem;}
+.card .spec{font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;}
+.stars{color:#F59E0B;font-size:0.9rem;margin-bottom:0.25rem;}
+.reviews{font-size:0.78rem;color:var(--muted);margin-bottom:1rem;}
+.tags{display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.25rem;}
+.tag{padding:0.2rem 0.65rem;border-radius:50px;font-size:0.72rem;font-weight:600;background:#EFF6FF;color:#2563EB;}
+.book-btn{width:100%;padding:0.7rem;background:var(--primary);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.9rem;}
+.book-btn:hover{background:var(--primary-dark);}
+.sessions{font-size:0.78rem;color:var(--muted);margin-top:0.5rem;}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo" onclick="window.location.href='index.html'">Univestree</div>
+  <div class="nav-back" onclick="window.location.href='index.html'">← Back to Home</div>
+</nav>
+<div class="page">
+  <div class="page-header">
+    <h1>🎓 Expert Counsellors</h1>
+    <p>Get guidance from counsellors who've been accepted to the world's top universities</p>
+  </div>
+  <div class="grid">
+    ${[
+      {name:"Aisha Rahman",role:"Oxford Alumna",spec:"UK Universities · Humanities & Law",avatar:"A",color:"linear-gradient(135deg,#7C3AED,#A78BFA)",tags:["Oxford","Cambridge","Law","Humanities"],rating:"4.9",reviews:"127",sessions:"500+"},
+      {name:"James Chen",role:"MIT Graduate",spec:"US Universities · STEM & Engineering",avatar:"J",color:"linear-gradient(135deg,#1D4ED8,#3B82F6)",tags:["MIT","Stanford","Engineering","CS"],rating:"4.8",reviews:"98",sessions:"350+"},
+      {name:"Priya Sharma",role:"Harvard MBA",spec:"Business Schools · MBA Programs",avatar:"P",color:"linear-gradient(135deg,#059669,#34D399)",tags:["Harvard","Wharton","MBA","Finance"],rating:"5.0",reviews:"203",sessions:"800+"},
+      {name:"Lucas Müller",role:"ETH Zurich PhD",spec:"European Universities · Research",avatar:"L",color:"linear-gradient(135deg,#DC2626,#F87171)",tags:["ETH","TU Munich","PhD","Research"],rating:"4.7",reviews:"74",sessions:"200+"},
+      {name:"Fatima Al-Hassan",role:"LSE Graduate",spec:"Economics & Social Sciences",avatar:"F",color:"linear-gradient(135deg,#D97706,#FCD34D)",tags:["LSE","UCL","Economics","Politics"],rating:"4.9",reviews:"156",sessions:"450+"},
+      {name:"Ravi Patel",role:"IIT + Stanford",spec:"India to USA · Engineering",avatar:"R",color:"linear-gradient(135deg,#0891B2,#67E8F9)",tags:["IIT","Stanford","GRE","Visa"],rating:"4.8",reviews:"89",sessions:"300+"},
+      {name:"Sophie Dubois",role:"Sorbonne & Sciences Po",spec:"French Universities · Arts",avatar:"S",color:"linear-gradient(135deg,#BE185D,#F472B6)",tags:["France","Scholarships","Arts","Languages"],rating:"4.6",reviews:"61",sessions:"150+"},
+      {name:"Omar Khalid",role:"NUS & Cambridge",spec:"Asia-Pacific · Business & Tech",avatar:"O",color:"linear-gradient(135deg,#065F46,#34D399)",tags:["NUS","Singapore","Asia","Business"],rating:"4.9",reviews:"112",sessions:"400+"},
+    ].map(c => `
+    <div class="card">
+      <div class="avatar" style="background:${c.color}">${c.avatar}</div>
+      <h3>${c.name}</h3>
+      <div class="role">${c.role}</div>
+      <div class="spec">${c.spec}</div>
+      <div class="stars">${'★'.repeat(Math.floor(c.rating))}${c.rating%1?'½':''}</div>
+      <div class="reviews">${c.rating} · ${c.reviews} reviews</div>
+      <div class="tags">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <button class="book-btn">Book a Session</button>
+      <div class="sessions">${c.sessions} sessions completed</div>
+    </div>
+    `).join('')}
+  </div>
+</div>
+</body>
+</html>

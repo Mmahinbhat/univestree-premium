@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scholarships — Univestree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#2563EB;--primary-dark:#1D4ED8;--bg:#F8F7F4;--card:#FFFFFF;--text:#111827;--muted:#6B7280;--border:#E5E7EB;--radius:18px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,247,244,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-size:1.45rem;font-weight:800;background:linear-gradient(135deg,var(--primary),#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;}
+.nav-back{font-size:0.9rem;color:var(--muted);cursor:pointer;font-weight:600;}
+.nav-back:hover{color:var(--primary);}
+.page{padding:100px 5% 60px;}
+.page-header{margin-bottom:2rem;}
+.page-header h1{font-size:2.2rem;font-weight:800;margin-bottom:0.5rem;}
+.page-header p{color:var(--muted);}
+.search-bar{display:flex;gap:0.75rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.search-bar input,.search-bar select{padding:0.75rem 1rem;border:1.5px solid var(--border);border-radius:12px;font-family:inherit;font-size:0.95rem;outline:none;background:#fff;}
+.search-bar input{flex:1;min-width:200px;}
+.search-bar input:focus,.search-bar select:focus{border-color:var(--primary);}
+.search-bar button{padding:0.75rem 1.5rem;background:var(--primary);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit;}
+.search-bar button:hover{background:var(--primary-dark);}
+.results-count{font-size:0.85rem;color:var(--muted);margin-bottom:1rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem;}
+.card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:1.5rem;transition:box-shadow .2s;position:relative;overflow:hidden;}
+.card:hover{box-shadow:0 8px 32px rgba(37,99,235,0.12);}
+.card-accent{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),#8B5CF6);}
+.card-tags{display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;}
+.tag{padding:0.25rem 0.75rem;border-radius:50px;font-size:0.75rem;font-weight:700;}
+.tag-blue{background:#EFF6FF;color:#2563EB;}
+.tag-green{background:#F0FDF4;color:#16A34A;}
+.tag-amber{background:#FFFBEB;color:#D97706;}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.4rem;}
+.card .uni{font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;}
+.card .desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:0.75rem;}
+.card .eligibility{font-size:0.8rem;color:#6B7280;background:#F9FAFB;border-radius:8px;padding:0.5rem 0.75rem;margin-bottom:1rem;}
+.amount{font-size:1.3rem;font-weight:800;color:#16A34A;margin-bottom:0.25rem;}
+.deadline{font-size:0.8rem;color:#D97706;font-weight:600;margin-bottom:1rem;}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.apply-btn{padding:0.5rem 1.1rem;background:var(--primary);color:#fff;border:none;border-radius:8px;font-weight:600;font-size:0.85rem;cursor:pointer;font-family:inherit;}
+.apply-btn:hover{background:var(--primary-dark);}
+.empty{text-align:center;padding:4rem;color:var(--muted);}
+.empty h3{font-size:1.2rem;margin-bottom:0.5rem;}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo" onclick="window.location.href='index.html'">Univestree</div>
+  <div class="nav-back" onclick="window.location.href='index.html'">← Back to Home</div>
+</nav>
+<div class="page">
+  <div class="page-header">
+    <h1>💰 Scholarships</h1>
+    <p>Find funding opportunities at top universities worldwide</p>
+  </div>
+  <div class="search-bar">
+    <input id="searchInput" type="text" placeholder="Search scholarships, universities, countries..." onkeydown="if(event.key==='Enter')doSearch()">
+    <select id="countryFilter" onchange="doSearch()">
+      <option value="">All Countries</option>
+      <option value="USA">🇺🇸 USA</option>
+      <option value="UK">🇬🇧 UK</option>
+      <option value="Canada">🇨🇦 Canada</option>
+      <option value="Australia">🇦🇺 Australia</option>
+      <option value="Germany">🇩🇪 Germany</option>
+      <option value="France">🇫🇷 France</option>
+      <option value="Singapore">🇸🇬 Singapore</option>
+      <option value="Switzerland">🇨🇭 Switzerland</option>
+      <option value="Japan">🇯🇵 Japan</option>
+      <option value="South Korea">🇰🇷 South Korea</option>
+    </select>
+    <button onclick="doSearch()">🔍 Search</button>
+  </div>
+  <div class="results-count" id="resultsCount"></div>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const API = 'https://univestree-backend.vercel.app/api/scholarships';
+
+async function load(query='', country='') {
+  document.getElementById('grid').innerHTML = '<div class="empty"><h3>Loading...</h3></div>';
+  let url = API + '/search?';
+  if (query) url += 'query=' + encodeURIComponent(query) + '&';
+  if (country) url += 'country=' + encodeURIComponent(country);
+  const res = await fetch(url);
+  const scholarships = await res.json();
+  document.getElementById('resultsCount').textContent = scholarships.length + ' scholarship' + (scholarships.length !== 1 ? 's' : '') + ' found';
+  if (!scholarships.length) {
+    document.getElementById('grid').innerHTML = '<div class="empty"><h3>No scholarships found</h3><p>Try a different search</p></div>';
+    return;
+  }
+  document.getElementById('grid').innerHTML = scholarships.map(s => `
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-tags">
+        <span class="tag tag-blue">${s.level}</span>
+        <span class="tag tag-green">${s.country}</span>
+      </div>
+      <h3>${s.name}</h3>
+      <div class="uni">🏛️ ${s.university}</div>
+      <div class="amount">${s.currency} ${s.amount?.toLocaleString()}</div>
+      <div class="deadline">⏰ Deadline: ${s.deadline}</div>
+      <div class="desc">${s.description}</div>
+      <div class="eligibility">✅ ${s.eligibility}</div>
+      <div class="card-footer">
+        <span style="font-size:0.8rem;color:var(--muted)">${s.link}</span>
+        <button class="apply-btn" onclick="window.open('https://'+\`${s.link}\`,'_blank')">Apply Now</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value;
+  const c = document.getElementById('countryFilter').value;
+  load(q, c);
+}
+
+const urlQ = new URLSearchParams(location.search).get('query') || '';
+if (urlQ) document.getElementById('searchInput').value = urlQ;
+load(urlQ);
+</script>
+</body>
+</html>
