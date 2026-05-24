@@ -45,10 +45,10 @@
   .search-btn {
     padding: 10px 22px; background: var(--primary); color: white;
     border: none; border-radius: 10px; font-weight: 700; cursor: pointer;
-    font-family: 'Sora', sans-serif; font-size: 0.9rem; white-space: nowrap;
+    font-family: 'Sora', sans-serif; font-size: 0.9rem;
   }
   .search-btn:hover { background: var(--primary-dark); }
-  .results-count { color: var(--muted); font-size: 0.85rem; margin-bottom: 16px; padding-left: 2px; }
+  .results-info { color: var(--muted); font-size: 0.85rem; margin-bottom: 16px; padding-left: 2px; }
   .unis-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -62,49 +62,45 @@
     border: 1px solid var(--border);
   }
   .uni-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(37,99,235,0.12); }
-  .card-top {
-    padding: 20px 20px 14px;
-    display: flex; align-items: center; gap: 14px;
-  }
+  .card-top { padding: 20px 20px 14px; display: flex; align-items: center; gap: 14px; }
   .logo-box {
-    width: 56px; height: 56px; border-radius: 12px;
+    width: 52px; height: 52px; border-radius: 12px;
     border: 1.5px solid var(--border); background: #F9FAFB;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0; overflow: hidden;
   }
-  .logo-box img { width: 48px; height: 48px; object-fit: contain; }
-  .logo-box.fallback {
-    color: white; font-size: 1.4rem; font-weight: 800;
-    border: none;
+  .logo-box img { width: 44px; height: 44px; object-fit: contain; }
+  .logo-fallback {
+    width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.3rem; font-weight: 800;
   }
   .uni-info { flex: 1; min-width: 0; }
   .uni-name { font-weight: 700; font-size: 0.92rem; line-height: 1.35; margin-bottom: 3px; }
-  .uni-loc { color: var(--muted); font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .card-stats {
-    padding: 0 20px 12px;
-    display: flex; gap: 6px; flex-wrap: wrap;
-  }
-  .chip {
-    background: #F3F4F6; border-radius: 20px;
-    padding: 4px 10px; font-size: 0.74rem; font-weight: 600; color: #374151;
-  }
+  .uni-loc { color: var(--muted); font-size: 0.78rem; }
+  .card-stats { padding: 0 20px 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { background: #F3F4F6; border-radius: 20px; padding: 4px 10px; font-size: 0.74rem; font-weight: 600; color: #374151; }
   .chip.green { background: #ECFDF5; color: #065F46; }
-  .chip.blue { background: #EFF6FF; color: #1D4ED8; }
   .chip.amber { background: #FFFBEB; color: #92400E; }
-  .card-programs {
-    padding: 0 20px 14px;
-    display: flex; gap: 5px; flex-wrap: wrap;
-  }
+  .card-programs { padding: 0 20px 14px; display: flex; gap: 5px; flex-wrap: wrap; }
   .prog { background: #EFF6FF; color: var(--primary); border-radius: 6px; padding: 3px 8px; font-size: 0.71rem; font-weight: 500; }
   .card-footer { padding: 0 16px 16px; margin-top: auto; }
   .view-btn {
     width: 100%; padding: 10px; background: var(--primary); color: white;
     border: none; border-radius: 10px; font-weight: 600; cursor: pointer;
     font-family: 'Sora', sans-serif; font-size: 0.85rem;
-    transition: background 0.15s;
   }
   .view-btn:hover { background: var(--primary-dark); }
-  .loading { text-align: center; padding: 80px; color: var(--muted); font-size: 1rem; grid-column: 1/-1; }
+  .pagination { display: flex; gap: 10px; justify-content: center; margin-top: 32px; align-items: center; }
+  .page-btn {
+    padding: 10px 20px; border: 1.5px solid var(--border); border-radius: 10px;
+    background: white; cursor: pointer; font-family: 'Sora', sans-serif;
+    font-weight: 600; font-size: 0.88rem; color: var(--text);
+  }
+  .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .page-info { color: var(--muted); font-size: 0.85rem; }
+  .loading { text-align: center; padding: 80px; color: var(--muted); grid-column: 1/-1; }
   .no-results { text-align: center; padding: 80px; color: var(--muted); grid-column: 1/-1; }
   .no-results h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text); }
 </style>
@@ -117,40 +113,58 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1>Find Your University</h1>
-    <p class="subtitle">Search across 96+ top universities worldwide</p>
+    <p class="subtitle">Search across 1200+ universities worldwide</p>
   </div>
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="🔍  Search university, country, or program...">
-    
-    <button class="search-btn" onclick="fetchAndDisplay()">Search</button>
+    <input type="text" id="searchInput" placeholder="🔍  Search university, city, or country...">
+    <select id="countryFilter">
+      <option value="">🌍 All Countries</option>
+      <option>USA</option><option>UK</option><option>Canada</option>
+      <option>Australia</option><option>Germany</option><option>Switzerland</option>
+      <option>Singapore</option><option>Japan</option><option>China</option>
+      <option>South Korea</option><option>India</option><option>Pakistan</option>
+      <option>France</option><option>Netherlands</option><option>Sweden</option>
+      <option>Italy</option><option>Spain</option><option>Russia</option>
+      <option>Hong Kong</option><option>UAE</option><option>Saudi Arabia</option>
+      <option>Brazil</option><option>Mexico</option><option>South Africa</option>
+      <option>Turkey</option><option>Malaysia</option><option>Taiwan</option>
+      <option>Ireland</option><option>Denmark</option><option>Finland</option>
+      <option>Norway</option><option>Belgium</option><option>New Zealand</option>
+      <option>Argentina</option><option>Ghana</option><option>Kenya</option><option>Egypt</option>
+    </select>
+    <button class="search-btn" onclick="search()">Search</button>
   </div>
-  <div class="results-count" id="resultsCount"></div>
+  <div class="results-info" id="resultsInfo"></div>
   <div class="unis-grid" id="universitiesContainer">
     <div class="loading">⏳ Loading universities...</div>
+  </div>
+  <div class="pagination" id="pagination" style="display:none">
+    <button class="page-btn" id="prevBtn" onclick="changePage(-1)">← Previous</button>
+    <span class="page-info" id="pageInfo"></span>
+    <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next →</button>
   </div>
 </div>
 <script>
 const API = 'https://univestree-backend.vercel.app/api/universities';
-const gradients = [
-  '#1D4ED8','#7C3AED','#059669','#D97706','#DC2626','#0891B2','#DB2777','#65A30D'
-];
+const LIMIT = 48;
+const gradients = ['#1D4ED8','#7C3AED','#059669','#D97706','#DC2626','#0891B2','#DB2777','#65A30D'];
+let currentOffset = 0;
+let currentTotal = 0;
+let currentQuery = '';
+let currentCountry = '';
 
 const params = new URLSearchParams(window.location.search);
 if (params.get('query')) document.getElementById('searchInput').value = params.get('query');
 if (params.get('country')) document.getElementById('countryFilter').value = params.get('country');
-if (params.get('level')) { const chips = document.querySelectorAll('.filter-chip'); chips.forEach(c => { if (c.textContent.includes(params.get('level'))) c.classList.add('active'); }); }
 
 function cardHTML(u, i) {
   const color = gradients[i % gradients.length];
-  const faviconUrl = u.website ? `https://www.google.com/s2/favicons?domain=${u.website}&sz=64` : null;
-  const logoEl = faviconUrl
-    ? `<div class="logo-box"><img src="${faviconUrl}" alt="${u.name[0]}" onerror="this.parentElement.className='logo-box fallback';this.parentElement.style.background='${color}';this.parentElement.innerHTML='${u.name[0]}'"></div>`
-    : `<div class="logo-box fallback" style="background:${color}">${u.name[0]}</div>`;
-
+  const logoEl = u.logo
+    ? `<div class="logo-box"><img src="${u.logo}" alt="${u.name[0]}" onerror="this.parentElement.outerHTML='<div class=\\"logo-fallback\\" style=\\"background:${color}\\">${u.name[0]}</div>'"></div>`
+    : `<div class="logo-fallback" style="background:${color}">${u.name[0]}</div>`;
   const tuitionChip = u.tuition === 0
-    ? `<span class="chip green">🆓 Free tuition</span>`
-    : `<span class="chip amber">💰 $${u.tuition?.toLocaleString()}/yr</span>`;
-
+    ? `<span class="chip green">🆓 Free</span>`
+    : u.tuition ? `<span class="chip amber">💰 $${u.tuition.toLocaleString()}/yr</span>` : '';
   return `<div class="uni-card">
     <div class="card-top">
       ${logoEl}
@@ -160,8 +174,8 @@ function cardHTML(u, i) {
       </div>
     </div>
     <div class="card-stats">
-      <span class="chip">🏆 Rank #${u.ranking}</span>
-      <span class="chip green">✅ ${u.acceptanceRate}% accept</span>
+      ${u.ranking ? `<span class="chip">🏆 #${u.ranking}</span>` : ''}
+      ${u.acceptanceRate ? `<span class="chip green">✅ ${u.acceptanceRate}%</span>` : ''}
       ${tuitionChip}
     </div>
     <div class="card-programs">
@@ -173,53 +187,64 @@ function cardHTML(u, i) {
   </div>`;
 }
 
-async function fetchAndDisplay() {
-  const query = document.getElementById('searchInput').value.trim();
-  const country = document.getElementById('countryFilter') ? document.getElementById('countryFilter').value : '';
+async function fetchUniversities(offset = 0) {
   const container = document.getElementById('universitiesContainer');
-  const countEl = document.getElementById('resultsCount');
-  const activeChip = document.querySelector('.filter-chip.active');
-  const level = activeChip ? activeChip.dataset.level || activeChip.textContent.trim() : '';
+  const infoEl = document.getElementById('resultsInfo');
+  container.innerHTML = '<div class="loading">⏳ Searching...</div>';
+  document.getElementById('pagination').style.display = 'none';
 
-  // Load from cache or fetch all once
-  let allUnis = null;
-  try { allUnis = JSON.parse(sessionStorage.getItem('unis_cache')); } catch(e) {}
-  if (!allUnis) {
-    container.innerHTML = '<div class="loading">⏳ Loading...</div>';
-    try {
-      const res = await fetch(`${API}/search?`);
-      allUnis = await res.json();
-      sessionStorage.setItem('unis_cache', JSON.stringify(allUnis));
-    } catch(e) {
-      container.innerHTML = '<div class="no-results"><h3>Something went wrong</h3><p>Please try again</p></div>';
+  let url = `${API}/search?limit=${LIMIT}&offset=${offset}`;
+  if (currentQuery) url += `&query=${encodeURIComponent(currentQuery)}`;
+  if (currentCountry) url += `&country=${encodeURIComponent(currentCountry)}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const unis = data.universities || [];
+    currentTotal = data.total || unis.length;
+    currentOffset = offset;
+
+    const page = Math.floor(offset / LIMIT) + 1;
+    const totalPages = Math.ceil(currentTotal / LIMIT);
+
+    infoEl.textContent = `${currentTotal} universit${currentTotal === 1 ? 'y' : 'ies'} found — showing ${offset + 1}–${Math.min(offset + LIMIT, currentTotal)}`;
+
+    if (!unis.length) {
+      container.innerHTML = '<div class="no-results"><h3>No universities found</h3><p>Try a different search or country</p></div>';
       return;
     }
-  }
 
-  // Filter locally — instant
-  let unis = allUnis;
-  if (query) unis = unis.filter(u =>
-    u.name.toLowerCase().includes(query.toLowerCase()) ||
-    u.country.toLowerCase().includes(query.toLowerCase()) ||
-    (u.city && u.city.toLowerCase().includes(query.toLowerCase())) ||
-    (u.programs && u.programs.some(p => p.toLowerCase().includes(query.toLowerCase())))
-  );
-  if (country) unis = unis.filter(u => u.country.toLowerCase() === country.toLowerCase());
-  if (level && level !== 'All') unis = unis.filter(u =>
-    u.programs && u.programs.some(p => p.toLowerCase().includes(level.toLowerCase()))
-  );
+    container.innerHTML = unis.map(cardHTML).join('');
 
-  countEl.textContent = `${unis.length} universit${unis.length === 1 ? 'y' : 'ies'} found`;
-  if (!unis.length) {
-    container.innerHTML = '<div class="no-results"><h3>No universities found</h3><p>Try a different search or country</p></div>';
-    return;
+    if (currentTotal > LIMIT) {
+      document.getElementById('pagination').style.display = 'flex';
+      document.getElementById('pageInfo').textContent = `Page ${page} of ${totalPages}`;
+      document.getElementById('prevBtn').disabled = offset === 0;
+      document.getElementById('nextBtn').disabled = offset + LIMIT >= currentTotal;
+    }
+  } catch(e) {
+    container.innerHTML = '<div class="no-results"><h3>Something went wrong</h3><p>Please try again</p></div>';
+    console.error(e);
   }
-  container.innerHTML = unis.map(cardHTML).join('');
 }
 
-document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') fetchAndDisplay(); });
-document.getElementById('countryFilter').addEventListener('change', fetchAndDisplay);
-fetchAndDisplay();
+function search() {
+  currentQuery = document.getElementById('searchInput').value.trim();
+  currentCountry = document.getElementById('countryFilter').value;
+  fetchUniversities(0);
+}
+
+function changePage(dir) {
+  const newOffset = currentOffset + (dir * LIMIT);
+  if (newOffset < 0 || newOffset >= currentTotal) return;
+  fetchUniversities(newOffset);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') search(); });
+document.getElementById('countryFilter').addEventListener('change', search);
+
+search();
 </script>
 </body>
 </html>
