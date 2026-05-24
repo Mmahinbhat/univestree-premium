@@ -872,34 +872,26 @@ async function joinWaitlist() {
         
         <span class="chip" data-level="Online" onclick="setLevel(this)">🌐 Online</span>
       </div>
-      <div style="font-size:0.78rem; color:var(--muted); font-weight:600; margin-bottom:0.6rem;">⚡ Popular right now</div>
-      <div class="mini-unis">
-        <div class="mini-uni-card" onclick="window.location.href='universities.html?query=MIT'" style="cursor:pointer">
-          <div class="uni-logo-sm"><img loading="lazy" src="https://www.google.com/s2/favicons?domain=mit.edu&sz=64" style="width:100%;height:100%;object-fit:contain;border-radius:8px;"></div>
-          <div class="uni-info">
-            <div class="uni-name-sm">MIT</div>
-            <div class="uni-country-sm">🇺🇸 Cambridge, USA</div>
-          </div>
-          <div class="uni-match tag tag-green">98% match</div>
-        </div>
-        <div class="mini-uni-card" onclick="window.location.href='universities.html?query=Oxford'" style="cursor:pointer">
-          <div class="uni-logo-sm"><img loading="lazy" src="https://www.google.com/s2/favicons?domain=ox.ac.uk&sz=64" style="width:100%;height:100%;object-fit:contain;border-radius:8px;"></div>
-          <div class="uni-info">
-            <div class="uni-name-sm">University of Oxford</div>
-            <div class="uni-country-sm">🇬🇧 Oxford, UK</div>
-          </div>
-          <div class="uni-match tag tag-blue">95% match</div>
-        </div>
-        <div class="mini-uni-card" onclick="window.location.href='universities.html?query=Toronto'" style="cursor:pointer">
-          <div class="uni-logo-sm"><img loading="lazy" src="https://www.google.com/s2/favicons?domain=utoronto.ca&sz=64" style="width:100%;height:100%;object-fit:contain;border-radius:8px;"></div>
-          <div class="uni-info">
-            <div class="uni-name-sm">University of Toronto</div>
-            <div class="uni-country-sm">🇨🇦 Toronto, Canada</div>
-          </div>
-          <div class="uni-match tag tag-amber">91% match</div>
-        </div>
-      </div>
+      <div style="font-size:0.78rem; color:var(--muted); font-weight:600; margin-bottom:0.6rem;">      <div style="font-size:0.78rem; color:var(--muted); font-weight:600; margin-bottom:0.6rem;">⚡ Popular right now</div>
+      <div class="mini-unis" id="popularUnis"><div style="color:#9CA3AF;font-size:0.82rem;padding:8px 0;">Loading...</div></div>
     </div>
+    <script>
+    const _API='https://univestree-backend.vercel.app';
+    async function loadPopular(){
+      try{
+        const d=await(await fetch(_API+'/api/universities/search?limit=3')).json();
+        const unis=d.universities||d;
+        document.getElementById('popularUnis').innerHTML=unis.slice(0,3).map(u=>
+          '<div class="mini-uni-card" onclick="location.href='university-details.html?id='+u.id+''" style="cursor:pointer">'+
+          '<div class="uni-logo-sm" style="background:#f4f6fb;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;">'+
+          '<img src="'+(u.logo||'https://www.google.com/s2/favicons?domain=university.edu&sz=64')+'" style="width:36px;height:36px;object-fit:contain;"></div>'+
+          '<div class="uni-info"><div class="uni-name-sm">'+u.name+'</div><div class="uni-country-sm">'+(u.country||'')+'</div></div>'+
+          (u.ranking?'<div class="uni-match tag tag-blue" style="font-size:0.72rem">#'+u.ranking+'</div>':'')+
+          '</div>').join('');
+      }catch(e){}
+    }
+    loadPopular();
+    </script>
   </div>
 </div>
 </section>
