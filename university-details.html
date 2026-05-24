@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>University Details — Univestree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #2563EB; --primary-dark: #1D4ED8; --primary-light: #EFF6FF;
+    --accent: #8B5CF6; --bg: #F0F4FF; --card: #FFFFFF;
+    --text: #111827; --muted: #6B7280; --border: #E5E7EB;
+    --radius: 16px; --shadow: 0 2px 16px rgba(0,0,0,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Sora', sans-serif; background: var(--bg); color: var(--text); }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 64px;
+  }
+  .logo { font-size: 1.3rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+  .nav-back { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.88rem; }
+
+  .hero {
+    margin-top: 64px;
+    background: linear-gradient(135deg, #1D4ED8, #7C3AED);
+    padding: 48px 5% 40px;
+    color: white;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .hero-logo {
+    width: 88px; height: 88px; border-radius: 20px;
+    background: white; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; flex-shrink: 0; border: 3px solid rgba(255,255,255,0.3);
+  }
+  .hero-logo img { width: 76px; height: 76px; object-fit: contain; }
+  .hero-logo.fallback { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
+  .hero-info { flex: 1; }
+  .hero-name { font-size: 2rem; font-weight: 800; margin-bottom: 6px; line-height: 1.2; }
+  .hero-location { font-size: 1rem; opacity: 0.85; margin-bottom: 16px; }
+  .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hero-chip {
+    background: rgba(255,255,255,0.2); border-radius: 20px;
+    padding: 5px 14px; font-size: 0.82rem; font-weight: 600;
+    backdrop-filter: blur(10px);
+  }
+  .hero-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 11px 24px; background: white; color: var(--primary);
+    border: none; border-radius: 10px; font-weight: 700; cursor: pointer;
+    font-family: 'Sora', sans-serif; font-size: 0.9rem; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-outline {
+    padding: 11px 24px; background: transparent; color: white;
+    border: 2px solid rgba(255,255,255,0.5); border-radius: 10px;
+    font-weight: 600; cursor: pointer; font-family: 'Sora', sans-serif;
+    font-size: 0.9rem; text-decoration: none;
+  }
+
+  .page-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 5% 60px; }
+  .grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: white; border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+  .card h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+  .card h2 span { margin-right: 8px; }
+
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat-box {
+    background: var(--bg); border-radius: 12px; padding: 14px;
+    text-align: center;
+  }
+  .stat-value { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+  .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; font-weight: 500; }
+
+  .programs-wrap { display: flex; gap: 8px; flex-wrap: wrap; }
+  .prog-tag {
+    background: var(--primary-light); color: var(--primary);
+    border-radius: 8px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600;
+  }
+
+  .desc { color: var(--muted); line-height: 1.7; font-size: 0.92rem; }
+
+  .req-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .req-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.88rem; color: var(--text); line-height: 1.5;
+  }
+  .req-list li::before { content: "✓"; color: #10B981; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  .scholarship-card {
+    border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px;
+  }
+  .scholarship-name { font-weight: 700; font-size: 0.92rem; margin-bottom: 4px; }
+  .scholarship-amount { color: var(--primary); font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .scholarship-elig { color: var(--muted); font-size: 0.8rem; }
+
+  .deadline-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem;
+  }
+  .deadline-row:last-child { border-bottom: none; }
+  .deadline-term { font-weight: 600; }
+  .deadline-date { color: var(--primary); font-weight: 700; }
+  .deadline-type { color: var(--muted); font-size: 0.78rem; }
+
+  .alumni-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .alumni-chip {
+    background: #F3F4F6; border-radius: 20px;
+    padding: 6px 14px; font-size: 0.82rem; font-weight: 500;
+  }
+
+  .photos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+  .photos-grid img { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; }
+
+  .website-btn {
+    display: block; width: 100%; padding: 12px; text-align: center;
+    background: var(--primary); color: white; border-radius: 10px;
+    font-weight: 700; text-decoration: none; font-size: 0.9rem; margin-bottom: 12px;
+  }
+  .website-btn:hover { background: var(--primary-dark); }
+
+  .loading { text-align: center; padding: 80px; color: var(--muted); }
+  .error { text-align: center; padding: 80px; color: #EF4444; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">🌳 Univestree</a>
+  <a href="universities.html" class="nav-back">← Back to Search</a>
+</nav>
+
+<div id="heroSection"></div>
+
+<div class="page-wrap">
+  <div id="mainContent"><div class="loading">⏳ Loading university...</div></div>
+</div>
+
+<script>
+const API = 'https://univestree-backend.vercel.app/api/universities';
+const COLORS = ['#1D4ED8','#7C3AED','#059669','#D97706','#DC2626','#0891B2'];
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get('id');
+
+if (!id) {
+  document.getElementById('mainContent').innerHTML = '<div class="error">No university selected.</div>';
+} else {
+  loadUniversity(id);
+}
+
+async function loadUniversity(id) {
+  try {
+    const res = await fetch(`${API}/${id}`);
+    const u = await res.json();
+    if (u.error) throw new Error(u.error);
+    render(u);
+  } catch(e) {
+    document.getElementById('mainContent').innerHTML = `<div class="error">Could not load university. <a href="universities.html">Go back</a></div>`;
+  }
+}
+
+function render(u) {
+  document.title = `${u.name} — Univestree`;
+  const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+  const letter = u.name ? u.name[0] : '?';
+
+  const logoHTML = u.logo
+    ? `<div class="hero-logo"><img src="${u.logo}" alt="${letter}" onerror="this.parentElement.className='hero-logo fallback';this.parentElement.innerHTML='${letter}'"></div>`
+    : `<div class="hero-logo fallback">${letter}</div>`;
+
+  const tuition = u.tuition === 0 ? '🆓 Free' : u.tuition ? `$${Number(u.tuition).toLocaleString()}/yr` : 'N/A';
+
+  document.getElementById('heroSection').innerHTML = `
+    <div class="hero">
+      <div class="hero-inner">
+        ${logoHTML}
+        <div class="hero-info">
+          <div class="hero-name">${u.name}</div>
+          <div class="hero-location">📍 ${u.city ? u.city + ', ' : ''}${u.country}</div>
+          <div class="hero-chips">
+            ${u.ranking ? `<span class="hero-chip">🏆 Rank #${u.ranking}</span>` : ''}
+            ${u.acceptanceRate ? `<span class="hero-chip">✅ ${u.acceptanceRate}% Acceptance</span>` : ''}
+            <span class="hero-chip">💰 ${tuition}</span>
+            ${u.level ? `<span class="hero-chip">🎓 ${u.level}</span>` : ''}
+          </div>
+          <div class="hero-actions">
+            ${u.website ? `<a href="https://${u.website}" target="_blank" class="btn-primary">🌐 Visit Website</a>` : ''}
+            <a href="universities.html" class="btn-outline">← Back to Search</a>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  const photos = u.photos && u.photos.length > 0
+    ? `<div class="card">
+        <h2><span>📸</span>Campus Photos</h2>
+        <div class="photos-grid">
+          ${u.photos.slice(0,4).map(p => `<img src="${p.url}" alt="Campus photo" loading="lazy">`).join('')}
+        </div>
+       </div>` : '';
+
+  const description = u.description
+    ? `<div class="card"><h2><span>🏛️</span>About</h2><p class="desc">${u.description}</p></div>` : '';
+
+  const requirements = u.admissionRequirements && u.admissionRequirements.length
+    ? `<div class="card"><h2><span>📋</span>Admission Requirements</h2>
+        <ul class="req-list">${u.admissionRequirements.map(r => `<li>${r}</li>`).join('')}</ul>
+       </div>` : '';
+
+  const scholarships = u.scholarships && u.scholarships.length
+    ? `<div class="card"><h2><span>🎓</span>Scholarships</h2>
+        ${u.scholarships.map(s => `
+          <div class="scholarship-card">
+            <div class="scholarship-name">${s.name}</div>
+            <div class="scholarship-amount">${s.amount}</div>
+            <div class="scholarship-elig">${s.eligibility}</div>
+          </div>`).join('')}
+       </div>` : '';
+
+  const deadlines = u.deadlines && u.deadlines.length
+    ? `<div class="card"><h2><span>📅</span>Application Deadlines</h2>
+        ${u.deadlines.map(d => `
+          <div class="deadline-row">
+            <div><div class="deadline-term">${d.term}</div><div class="deadline-type">${d.type}</div></div>
+            <div class="deadline-date">${d.date}</div>
+          </div>`).join('')}
+       </div>` : '';
+
+  const alumni = u.notableAlumni && u.notableAlumni.length
+    ? `<div class="card"><h2><span>⭐</span>Notable Alumni</h2>
+        <div class="alumni-grid">${u.notableAlumni.map(a => `<span class="alumni-chip">${a}</span>`).join('')}</div>
+       </div>` : '';
+
+  const campusLife = u.campusLife
+    ? `<div class="card"><h2><span>🏠</span>Campus Life</h2><p class="desc">${u.campusLife}</p></div>` : '';
+
+  const research = u.researchAreas && u.researchAreas.length
+    ? `<div class="card"><h2><span>🔬</span>Research Areas</h2>
+        <div class="programs-wrap">${u.researchAreas.map(r => `<span class="prog-tag">${r}</span>`).join('')}</div>
+       </div>` : '';
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="grid">
+      <div>
+        ${photos}
+        ${description}
+        ${requirements}
+        ${scholarships}
+        ${alumni}
+        ${campusLife}
+        ${research}
+        ${!u.description && !u.admissionRequirements ? `
+          <div class="card">
+            <h2><span>ℹ️</span>About ${u.name}</h2>
+            <p class="desc">${u.name} is located in ${u.city ? u.city + ', ' : ''}${u.country}. 
+            ${u.ranking ? `It is ranked #${u.ranking} globally.` : ''} 
+            ${u.acceptanceRate ? `The acceptance rate is ${u.acceptanceRate}%.` : ''}
+            ${u.tuition === 0 ? 'Tuition is free.' : u.tuition ? `Annual tuition is $${Number(u.tuition).toLocaleString()}.` : ''}
+            </p>
+          </div>` : ''}
+      </div>
+      <div>
+        <div class="card">
+          <h2><span>📊</span>Quick Stats</h2>
+          <div class="stats-grid">
+            ${u.ranking ? `<div class="stat-box"><div class="stat-value">#${u.ranking}</div><div class="stat-label">Global Rank</div></div>` : ''}
+            ${u.acceptanceRate ? `<div class="stat-box"><div class="stat-value">${u.acceptanceRate}%</div><div class="stat-label">Acceptance Rate</div></div>` : ''}
+            <div class="stat-box"><div class="stat-value">${u.tuition === 0 ? 'Free' : u.tuition ? '$' + Math.round(u.tuition/1000) + 'K' : 'N/A'}</div><div class="stat-label">Annual Tuition</div></div>
+            ${u.level ? `<div class="stat-box"><div class="stat-value" style="font-size:0.85rem">${u.level.split(',')[0]}</div><div class="stat-label">Level</div></div>` : ''}
+          </div>
+        </div>
+        ${u.programs && u.programs.length ? `
+          <div class="card">
+            <h2><span>📚</span>Programs</h2>
+            <div class="programs-wrap">${u.programs.map(p => `<span class="prog-tag">${p}</span>`).join('')}</div>
+          </div>` : ''}
+        ${deadlines}
+        ${u.website ? `
+          <div class="card">
+            <h2><span>🔗</span>Links</h2>
+            <a href="https://${u.website}" target="_blank" class="website-btn">🌐 Official Website</a>
+          </div>` : ''}
+      </div>
+    </div>`;
+}
+</script>
+</body>
+</html>
