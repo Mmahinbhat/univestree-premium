@@ -879,7 +879,7 @@ async function joinWaitlist() {
     const _API='https://univestree-backend.vercel.app';
     async function loadPopular(){
       try{
-        const d=await(await fetch(_API+'/api/universities/search?limit=3')).json();
+        const d=await (await fetch(_API+'/api/universities/search?limit=3')).json();
         const unis=d.universities||d;
         document.getElementById('popularUnis').innerHTML=unis.slice(0,3).map(u=>
           '<div class="mini-uni-card" onclick="location.href='university-details.html?id='+u.id+''" style="cursor:pointer">'+
