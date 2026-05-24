@@ -882,7 +882,7 @@ async function joinWaitlist() {
         const d=await (await fetch(_API+'/api/universities/search?limit=3')).json();
         const unis=d.universities||d;
         document.getElementById('popularUnis').innerHTML=unis.slice(0,3).map(u=>
-          '<div class="mini-uni-card" onclick="location.href='university-details.html?id='+u.id+''" style="cursor:pointer">'+
+          '<div class="mini-uni-card" onclick="location.href="university-details.html?id='+u.id+''" style="cursor:pointer">'+
           '<div class="uni-logo-sm" style="background:#f4f6fb;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;">'+
           '<img src="'+(u.logo||'https://www.google.com/s2/favicons?domain=university.edu&sz=64')+'" style="width:36px;height:36px;object-fit:contain;"></div>'+
           '<div class="uni-info"><div class="uni-name-sm">'+u.name+'</div><div class="uni-country-sm">'+(u.country||'')+'</div></div>'+
