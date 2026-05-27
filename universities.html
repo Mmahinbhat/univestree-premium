@@ -156,7 +156,7 @@ function makeLogo(u, i) {
   div.className = 'uni-logo';
   if (u.logo) {
     const img = document.createElement('img');
-    img.src = u.logo;
+      img.src = (u.logo && !u.logo.includes("clearbit")) ? u.logo : "https://www.google.com/s2/favicons?domain="+(u.website||"university.edu")+"&sz=128";
     img.alt = letter;
     img.onerror = function() {
       div.style.background = color;
